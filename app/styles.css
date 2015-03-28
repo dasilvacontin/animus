@@ -53,16 +53,18 @@ html, body {
 
 .animus-tags {
   margin-left: 20px;
+  color: #D8D8D8;
+}
+.animus-tags .animus-tag {
+  margin: 0px 5px;
 }
 
-.animus-tags span {
-  margin: 0px 5px;
-  color: #D8D8D8;
+.animus-tag {
   cursor: pointer;
   transition: color;
   transition-duration: 0.25s;
 }
-.animus-tags span:hover, .animus-tags span.high {
+.animus-tag:hover, .animus-tag.high {
   color: #4A90E2;
 }
 
