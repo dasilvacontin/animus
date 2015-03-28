@@ -6,7 +6,7 @@ exports.css = function() {
 };
 
 exports.copy = function() {
-  gulp.watch('./app/**/*.html', ['copy']);
+  gulp.watch('./app/**/*.{html,jpg,jpeg,png,svg}', ['copy']);
 };
 
 exports.js = function() {
