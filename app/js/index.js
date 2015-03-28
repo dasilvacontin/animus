@@ -1,12 +1,21 @@
 'use strict';
 var util = require('util');
+var zepto = require('zepto-browserify');
 var Controller = require('./controller');
+var Model = require('./model');
+
+var $ = zepto.$;
 
 function main() {
+  var controller = new EntriesController({
+    el: $('#animus .animus-view'),
+  });
 }
 
 function EntriesController() {
+  this.constructor.super_.apply(this, arguments);
 }
+util.inherits(EntriesController, Controller);
 
 function Entry() {
   this.createdAt = new Date();

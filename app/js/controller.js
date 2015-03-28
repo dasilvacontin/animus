@@ -1,15 +1,22 @@
 'use strict';
 var events = require('events');
 var util = require('util');
-var $ = require('zepto-browserify');
+var zepto = require('zepto-browserify');
+
+var $ = zepto.$;
 
 exports = module.exports = Controller;
 
-function Controller() {
+function Controller(options) {
+  this.attachToEl(options.el);
 }
 util.inherits(Controller, events.EventEmitter);
 
 Controller.prototype.attachToEl = function(el) {
+  if(!el) {
+    throw new Error('Cannot attach to ' + el);
+  }
+
   this.$el = $(el);
   this.$ = this.$el.find.bind(this.$el);
 };
