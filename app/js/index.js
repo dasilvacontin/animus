@@ -1,40 +1,64 @@
 'use strict';
 var util = require('util');
+var _ = require('lodash');
 var zepto = require('zepto-browserify');
 var Controller = require('./controller');
 var Model = require('./model');
 
 var $ = zepto.$;
+var KEYCODES = {
+  enter: 13,
+};
 
 function main() {
   var controller = new EntriesController({
     el: $('#animus .animus-view'),
+    model: Entry,
   });
 }
 
 function EntriesController() {
-  this.constructor.super_.apply(this, arguments);
+  Controller.apply(this, arguments);
 }
 util.inherits(EntriesController, Controller);
+_.mixin(EntriesController, Controller);
 
 EntriesController.prototype.attach = function(el) {
   var _this = this;
-  this.constructor.super_.prototype.attach.call(this, el);
+  Controller.prototype.attach.call(this, el);
   var input = this.$el;
+  console.log(this.$el);
   input.on('keydown', function(evt) {
-    _this.onKeydownNewEntry(evt);
+    _this.onKeydown(evt);
   });
 };
 
-EntriesController.prototype.onKeydownNewEntry = function(evt) {
+EntriesController.prototype.onKeydown = function(evt) {
   console.log(evt.keyCode);
+  if(evt.keyCode === KEYCODES.enter) {
+    console.log(this.model);
+    var entry = new this.model({
+      title: this.$el.find('input').val(),
+    });
+    console.log(entry);
+    this.addEntry(entry);
+  }
 };
 
-function Entry() {
+EntriesController.prototype.addEntry = function(entry) {
+  console.log(entry);
+  console.log(html);
+  var html = '<li>' + entry.title + '</li>';
+  this.$el.find('.animus-entry-list')
+    .add(html);
+};
+
+function Entry(params) {
+  Model.apply(this, arguments);
   this.createdAt = new Date();
-  this._super.constructor.apply(this, arguments);
 }
 util.inherits(Entry, Model);
+_.mixin(Entry, Model);
 
 if(!module.parent) {
   $(function() {

@@ -9,6 +9,7 @@ exports = module.exports = Controller;
 
 function Controller(options) {
   this.attach(options.el);
+  this.model = options.model;
 }
 util.inherits(Controller, events.EventEmitter);
 

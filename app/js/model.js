@@ -1,4 +1,5 @@
 'use strict'; /* global chrome */
+var events = require('events');
 var _ = require('lodash');
 var observe = require('observe');
 var shortid = require('shortid');
@@ -19,6 +20,7 @@ function Model(props) {
 
   this.id = shortid.generate();
   _.extend(this, props);
+  if(!this.constructor.items) this.constructor.items = {};
   this.constructor.items[this.id] = this;
 
   this.constructor.emit('add', this);
@@ -28,9 +30,8 @@ function Model(props) {
     if(!_this.isDirty) _this.isDirty = true;
   });
 }
+_.mixin(Model, events.EventEmitter.prototype);
 Model.prototype = observe({});
-
-Model.items = {};
 
 /**
  * Removes the item matching a predicate. If a string is provided, removes the
