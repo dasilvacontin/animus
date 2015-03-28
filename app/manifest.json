@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "Animus",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "description": "",
+  "icons": {},
+  "browser_action": {},
+  "page_action": {},
+  "author": [,
+  "background": {
+    "persistent": false
+  },
+  "content_scripts": [{}],
+  "content_security_policy": "policyString",
+  "devtools_page": "devtools.html",
+  "externally_connectable": {
+    "matches": ["*://*.example.com/*"]
+  },
+  "file_browser_handlers": [],
+  "homepage_url": "http://path/to/homepage",
+  "import": [{"id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}],
+  "incognito": "spanning or split",
+  "key": "publicKey",
+  "offline_enabled": true,
+  "optional_permissions": ["tabs"],
+  "options_page": "options.html",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+  "permissions": ["tabs"],
+  "update_url": "http://path/to/updateInfo.xml"
+}
