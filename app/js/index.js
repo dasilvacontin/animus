@@ -36,5 +36,7 @@ function Entry() {
 util.inherits(Entry, Model);
 
 if(!module.parent) {
-  main();
+  $(function() {
+    main();
+  });
 }
