@@ -62,7 +62,7 @@ html, body {
   transition: color;
   transition-duration: 0.25s;
 }
-.animus-tags span:hover {
+.animus-tags span:hover, .animus-tags span.high {
   color: #4A90E2;
 }
 
@@ -82,7 +82,7 @@ html, body {
 
 .animus-view input:focus {
   border-color: #4A90E2;
-  color: #4A4A4A;
+  color: #4A90E2;
 }
 
 ::-webkit-input-placeholder {
@@ -96,4 +96,13 @@ html, body {
 }
 :-ms-input-placeholder {
   color: #D8D8D8;
+}
+
+::selection {
+  background: #4A90E2; /* WebKit/Blink Browsers */
+  color: white;
+}
+::-moz-selection {
+  background: #4A90E2; /* Gecko Browsers */
+  color: white;
 }
