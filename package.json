@@ -1,0 +1,31 @@
+{
+  "name": "animus",
+  "version": "1.0.0",
+  "description": "the element of a person that enables them to be aware of the world and their experiences, to think, and to feel",
+  "main": "app/js/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dasilvacontin/animus"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dasilvacontin/animus/issues"
+  },
+  "homepage": "https://github.com/dasilvacontin/animus",
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0",
+    "gulp-load-directory": "0.0.2",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-util": "^3.0.4",
+    "mocha": "^2.2.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^2.6.2"
+  }
+}
