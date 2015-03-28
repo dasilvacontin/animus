@@ -19,7 +19,7 @@ function Model(props) {
 
   this.id = shortid.generate();
   _.extend(this, props);
-  this.constructor[this.id] = this;
+  this.constructor.items[this.id] = this;
 
   this.constructor.emit('add', this);
 
