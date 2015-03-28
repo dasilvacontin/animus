@@ -17,6 +17,18 @@ function EntriesController() {
 }
 util.inherits(EntriesController, Controller);
 
+EntriesController.prototype.attach = function(el) {
+  var _this = this;
+  this.constructor.super_.prototype.attach.call(this, el);
+  this.$el('input.animus-new-entry-input').on('keydown', function(evt) {
+    _this.onKeydownNewEntry(evt);
+  });
+};
+
+EntriesController.prototype.onKeydownNewEntry = function(evt) {
+  console.log(evt.keyCode);
+};
+
 function Entry() {
   this.createdAt = new Date();
   this._super.constructor.apply(this, arguments);

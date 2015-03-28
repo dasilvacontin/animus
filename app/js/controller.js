@@ -12,7 +12,7 @@ function Controller(options) {
 }
 util.inherits(Controller, events.EventEmitter);
 
-Controller.prototype.attachToEl = function(el) {
+Controller.prototype.attach = function(el) {
   if(!el) {
     throw new Error('Cannot attach to ' + el);
   }
