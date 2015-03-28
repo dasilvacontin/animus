@@ -8,7 +8,7 @@ var $ = zepto.$;
 exports = module.exports = Controller;
 
 function Controller(options) {
-  this.attachToEl(options.el);
+  this.attach(options.el);
 }
 util.inherits(Controller, events.EventEmitter);
 

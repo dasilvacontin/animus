@@ -20,7 +20,8 @@ util.inherits(EntriesController, Controller);
 EntriesController.prototype.attach = function(el) {
   var _this = this;
   this.constructor.super_.prototype.attach.call(this, el);
-  this.$el('input.animus-new-entry-input').on('keydown', function(evt) {
+  var input = this.$el;
+  input.on('keydown', function(evt) {
     _this.onKeydownNewEntry(evt);
   });
 };
