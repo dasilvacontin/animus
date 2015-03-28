@@ -1,10 +1,14 @@
 'use strict';
 var gulp = require('gulp');
 
+exports.css = function() {
+  gulp.watch('./app/**/*.css', ['autoprefix']);
+};
+
 exports.copy = function() {
-  gulp.watch('./assets/**/*.html', ['copy']);
+  gulp.watch('./app/**/*.html', ['copy']);
 };
 
 exports.js = function() {
-  gulp.watch('./js/**/*.js', ['browserify']);
+  gulp.watch('./app/**/*.js', ['browserify']);
 };

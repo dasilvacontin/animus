@@ -8,4 +8,4 @@ exports.connect = function() {
     port: process.env.PORT || 3000,
   });
 };
-exports.connect.dependencies = ['browserify', 'copy', 'watch'];
+exports.connect.dependencies = ['browserify', 'copy', 'watch', 'autoprefix'];
