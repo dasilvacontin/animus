@@ -10,5 +10,7 @@ function Entry(params) {
   Model.apply(this, arguments);
   this.createdAt = new Date();
 }
+
 util.inherits(Entry, Model);
-_.mixin(Entry, Model);
+
+window.Entry = Entry

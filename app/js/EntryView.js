@@ -3,6 +3,7 @@ var events = require('events');
 var _ = require('lodash');
 var util = require('util');
 var zepto = require('zepto-browserify');
+var Entry = require('./Entry');
 
 var $ = zepto.$;
 
@@ -16,8 +17,8 @@ exports = module.exports = EntryView;
  * @param {EntryModel} model
  */
 function EntryView(model) {
-  if (!(model instanceof EntryModel))
-    throw new Error('EntryView must be initialised with an EntryModel');
+  if (!(model instanceof Entry))
+    throw new Error('EntryView must be initialised with an Entry');
   this.model = model;
   this.createNode();
 }
@@ -29,25 +30,34 @@ util.inherits(EntryView, events.EventEmitter);
  *
  * The `+?` token means as few as possible.
  */
-var titleRe = /^(.+?)((\s*#[a-zA-Z\d]+\s*))*$/
-var tagRe = /(#[a-zA-Z\d]+)/
+var titleRe = /^(.+?)((\s*#[a-zA-Z\d]+\s*)*)$/
+var tagRe = /(#[a-zA-Z\d]+)/g
 var tagTpl = '<span class="animus-tag">$&</span>'
 
 /**
  * Generate the initial DOM element for the EntryView using the model's info.
  */
 EntryView.prototype.createNode = function() {
-  var li = document.createElement('li');
   var match = titleRe.exec(this.model.title)
+  console.log(match)
 
-  var title = match[0];
-  title = title.replace(tagRe, tagTpl)
+  var title = match[1];
+  if (title)
+    title = title.replace(tagRe, tagTpl)
 
-  var extraTags = match[1];
-  extraTags = extraTags.replace(tagRe, tagTpl).replace(/\s/, '')
+  var extraTags = (match[2] || '');
+  if (extraTags)
+    extraTags = extraTags.replace(/\s/g, '').replace(tagRe, tagTpl)
 
-  li.textContent = '<span class="animus-entry-text">' + title +
-    '</span>' + extraTags;
-  this.el = li;
-  console.log(li);
+  var html = '<li><span class="animus-entry-text">' + title +
+    '</span>' + extraTags + '</li>';
+
+  this.$el = $(html);
+  this.$ = this.$el.find.bind(this.$el);
+
+  var self = this;
+  // show-animation
+  setTimeout(function() {
+    self.$el.addClass('visible');
+  }, 1);
 }

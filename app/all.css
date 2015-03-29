@@ -45,11 +45,16 @@ html, body {
   vertical-align: middle;
   margin: auto;
   text-align: left;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 
 .animus-entry-list {
   list-style-type: none;
   padding: 0px;
+}
+.animus-entry-list:last-child {
+  margin-bottom: 100px;
 }
 .animus-entry-list.selecting li {
   opacity: 0.5;
@@ -60,9 +65,16 @@ html, body {
 
 
 .animus-view ul li {
-  margin: 30px 0px;
   font-size: 24px;
   color: #4A4A4A;
+  opacity: 0;
+  height: 0;
+  transition: opacity 0.5s;
+}
+.animus-view ul li.visible {
+  margin: 30px 0px;
+  opacity: 1;
+  height: auto;
 }
 
 .animus-entry-text {
@@ -111,6 +123,7 @@ html, body {
   color: #D8D8D8;
   background: none;
   border: none;
+  margin-top: 100px;
   padding-bottom: 10px;
   border-bottom: 2px solid #D8D8D8;
   outline: none; /* remove that 'sexy' glow */

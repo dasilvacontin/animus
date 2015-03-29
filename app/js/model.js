@@ -22,8 +22,7 @@ function Model(props) {
   _.extend(this, props);
   if(!this.constructor.items) this.constructor.items = {};
   this.constructor.items[this.id] = this;
-
-  this.constructor.emit('add', this);
+  this.emit('add', this);
 
   var _this = this;
   this.on('change', function() {
