@@ -40,10 +40,17 @@ html, body {
   text-align: left;
 }
 
-.animus-view ul {
+.animus-entry-list {
   list-style-type: none;
   padding: 0px;
 }
+.animus-entry-list.selecting li {
+  opacity: 0.5;
+}
+.animus-entry-list.selecting li.selected {
+  opacity: 1;
+}
+
 
 .animus-view ul li {
   margin: 30px 0px;
@@ -51,12 +58,35 @@ html, body {
   color: #4A4A4A;
 }
 
-.animus-tags {
-  margin-left: 20px;
+.animus-entry-text {
+  margin-right: 20px;
+}
+.animus-view li.progress .animus-entry-text {
+  position: relative; /* for placing the progress bar over the border-bottom */
+  padding-bottom: 5px;
+  border-bottom: 2px solid #D8D8D8;
+}
+/* I could use :before, but f--- <IE9 */
+.animus-view li.progress .animus-entry-text::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -2px;
+  left: 0px;
+  height: 2px;
+  width: 50%;
+  background-color: #4A90E2;
+  transition: width 0.5s;
+}
+
+.animus-tag {
+  margin: 0px 5px;
   color: #D8D8D8;
 }
-.animus-tags .animus-tag {
-  margin: 0px 5px;
+
+.animus-entry-text .animus-tag {
+  margin: 0px;
+  color: #4A4A4A;
 }
 
 .animus-tag {
