@@ -56,10 +56,10 @@ html, body {
 .animus-entry-list:last-child {
   margin-bottom: 100px;
 }
-.animus-entry-list.selecting li {
-  opacity: 0.5;
+.animus-entry-list.selecting.selecting li {
+  opacity: 0.4;
 }
-.animus-entry-list.selecting li.selected {
+.animus-entry-list.selecting.selecting li.selected {
   opacity: 1;
 }
 
