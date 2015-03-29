@@ -65,16 +65,19 @@ html, body {
 
 
 .animus-view ul li {
+  margin: 30px 0px;
   font-size: 24px;
   color: #4A4A4A;
   opacity: 0;
-  height: 0;
   transition: opacity 0.5s;
+  transition-delay: 0.1s;
+  display: none;
+}
+.animus-view ul li.displayed {
+  display: list-item;
 }
 .animus-view ul li.visible {
-  margin: 30px 0px;
   opacity: 1;
-  height: auto;
 }
 
 .animus-entry-text {

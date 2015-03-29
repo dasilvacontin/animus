@@ -39,7 +39,6 @@ var tagTpl = '<span class="animus-tag">$&</span>'
  */
 EntryView.prototype.createNode = function() {
   var match = titleRe.exec(this.model.title)
-  console.log(match)
 
   var title = match[1];
   if (title)
@@ -57,7 +56,8 @@ EntryView.prototype.createNode = function() {
 
   var self = this;
   // show-animation
+  self.$el.addClass('displayed');
   setTimeout(function() {
     self.$el.addClass('visible');
-  }, 1);
+  }, 16);
 }
