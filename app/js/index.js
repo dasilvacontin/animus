@@ -15,6 +15,13 @@ function main() {
     el: $('#animus .animus-view'),
     model: Entry,
   });
+
+  // fancy intro thing
+  setTimeout(function() {
+    document.getElementById('page-content').className += ' blurred';
+    var animus = document.getElementById('animus');
+    animus.className = animus.className.replace('hide', '');
+  }, 500);
 }
 
 function EntriesController() {
