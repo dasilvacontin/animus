@@ -11,7 +11,7 @@ html, body {
   height: 100%;
   background-image: url('img/wired.png');
   background-size: cover;
-  transition: -webkit-filter 0.5s, filter 0.5s;
+  transition: -webkit-filter 1s, filter 1s;
 }
 .blurred {
   filter: blur(15px);
