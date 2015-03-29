@@ -121,6 +121,8 @@ html, body {
 }
 
 .animus-view input {
+  width: 100%;
+  min-width: 300px;
   font-family: 'Open Sans', sans-serif;
   font-size: 24px;
   color: #D8D8D8;
