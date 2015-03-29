@@ -47,6 +47,7 @@ html, body {
   text-align: left;
   max-height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .animus-entry-list {
