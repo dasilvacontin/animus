@@ -81,6 +81,9 @@ html, body {
   opacity: 1;
   transition-duration: 0.5s;
 }
+.animus-view ul li.visible.soft {
+  opacity: 0.4;
+}
 
 .animus-entry-text {
   margin-right: 20px;
