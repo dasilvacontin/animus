@@ -21,6 +21,7 @@ function EntryView(model) {
     throw new Error('EntryView must be initialised with an Entry');
   this.model = model;
   this.createNode();
+  this.tags = {};
 }
 util.inherits(EntryView, events.EventEmitter);
 
@@ -55,6 +56,10 @@ EntryView.prototype.createNode = function() {
   this.$ = this.$el.find.bind(this.$el);
 
   var self = this;
+  this.$('.animus-tag').on('click', function(evt) {
+    var tag = evt.toElement.textContent;
+    self.emit('click:tag', tag);
+  })
   // show-animation
   self.$el.addClass('displayed');
   setTimeout(function() {

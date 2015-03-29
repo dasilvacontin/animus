@@ -39,6 +39,19 @@ EntriesController.prototype.onKeydown = function(evt) {
 
 EntriesController.prototype.addEntry = function(entry) {
   var entryView = new this.modelView(entry);
+  entryView.on('click:tag', this.clickedTag.bind(this));
   var list = this.$el.find('.animus-entry-list');
-  list.append(entryView.$el);
+  list.prepend(entryView.$el);
 };
+
+/**
+ * Adds the tag to the search.
+ *
+ * @param {String} tag
+ */
+
+EntriesController.prototype.clickedTag = function(tag) {
+  console.log(tag);
+  var input = this.$el.find('input');
+  input.val(input.val()+tag);
+}
