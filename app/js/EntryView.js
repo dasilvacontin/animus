@@ -52,7 +52,7 @@ EntryView.prototype.createNode = function() {
     self.tags[tag.substring(1)] = tagView;
   })
   // show-animation
-  self.$el.addClass('displayed');
+  self.$el.addClass('fix');
   setTimeout(function() {
     self.$el.addClass('visible');
   }, 16);
@@ -85,14 +85,10 @@ EntryView.prototype.applyQuery = function(query) {
 
 EntryView.prototype.setVisible = function (bool) {
   if (bool && !this.visible) {
-    this.$el.addClass('displayed');
-    var self = this;
-    setTimeout(function () {
-      self.$el.addClass('visible');
-    }, 16);
+    this.$el.addClass('visible fix');
     this.visible = true;
   } else if (!bool && this.visible) {
-    this.$el.removeClass('displayed visible');
+    this.$el.removeClass('visible fix');
     this.visible = false;
   }
 }
