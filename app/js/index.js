@@ -54,6 +54,7 @@ EntriesController.prototype.addEntry = function(entry) {
 };
 
 function Entry(params) {
+  if (this === undefined) throw new Error('wat');
   Model.apply(this, arguments);
   this.createdAt = new Date();
 }
