@@ -39,19 +39,20 @@ EntriesController.prototype.onKeydown = function(evt) {
 
 EntriesController.prototype.addEntry = function(entry) {
   var entryView = new this.modelView(entry);
-  entryView.on('click:tag', this.clickedTag.bind(this));
+  entryView.on('click:tag', this.addTagToQuery.bind(this));
   var list = this.$el.find('.animus-entry-list');
   list.prepend(entryView.$el);
 };
 
 /**
- * Adds the tag to the search.
+ * If the tag is not already part of the query, add it.
  *
  * @param {String} tag
  */
 
-EntriesController.prototype.clickedTag = function(tag) {
+EntriesController.prototype.addTagToQuery = function(tag) {
   console.log(tag);
   var input = this.$el.find('input');
+  // TODO: check is not already part of the query
   input.val(input.val()+tag);
 }
