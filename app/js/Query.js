@@ -1,12 +1,6 @@
 'use strict';
 
-/**
- * Regex that extracts the entry's `text` and the `extraTags` by matching as
- * many tags as possible at the end of the title.
- *
- * The `+?` token means as few as possible.
- */
-var titleRe = /^(.+?)?((\s*#[a-zA-Z\d]+\s*)*)$/
+
 var tagRe = /#[a-z\d]+/gi;
 
 /**
@@ -17,24 +11,25 @@ var tagRe = /#[a-z\d]+/gi;
  */
 
 function Query(text) {
-  text = text || '';
-  var match = titleRe.exec(text);
+  this.title = text || '';
 
-  this.title = (match[1] || '');
-
-  var extraTags = (match[2] || '');
-  this.tags = [];
-  if (extraTags) {
-    extraTags = extraTags.replace(/\s/g, '');
-    this.tags = extraTags.substr(1).split('#');
-  }
+  this.tags = {};
+  this.tagCount = 0;
   if (this.title) {
-    var tagsInTitle = this.title.match(tagRe) || [];
-    for (var i = 0; i < tagsInTitle.length; ++i) {
-      tagsInTitle[i] = tagsInTitle[i].substr(1);
-    }
-    this.tags = this.tags.concat(tagsInTitle);
+    var tags = this.title.match(tagRe) || [];
+    var self = this;
+    tags.forEach(function (tag) {
+      // Remove the '#' char
+      tag = tag.substr(1);
+      // Keep track of how many tags of the same type
+      self.tags[tag] = (self.tags[tag] || 0) + 1;
+      ++self.tagCount;
+    })
   }
-  this.extraTags = extraTags;
 }
 module.exports = exports = Query;
+
+Query.prototype.hasTag = function(tag) {
+  if (tag[0] === '#') tag = tag.substr(1);
+  return (this.tags[tag] || 0);
+}
