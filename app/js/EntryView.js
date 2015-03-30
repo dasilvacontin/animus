@@ -73,14 +73,27 @@ EntryView.prototype.applyQuery = function(query) {
   var matches = 0;
   for (var i = 0; i < query.tags.length; ++i) {
     var tag = query.tags[i];
-    console.log('query tag', tag);
     var tagView = this.tags[tag];
     if (tagView) {
       $(tagView).addClass('high');
       ++matches;
     }
   }
-  this.setVisible(matches == query.tags.length || query.tags.length == 0);
+  var exactMatch = (
+    (this.model.title.indexOf(query.title) >= 0) ||
+    (query.tags.length == 0 && (!query.title || query.title == '#')) ||
+    (query.tags.length > 0 && matches == query.tags.length)
+  );
+  // TODO: softMatch condition
+  var softMatch = false;
+  this.setVisible(exactMatch || softMatch);
+
+  if (this.visible && !exactMatch) {
+    console.log('soft match');
+    this.$el.addClass('soft');
+  } else {
+    this.$el.removeClass('soft');
+  }
 }
 
 EntryView.prototype.setVisible = function (bool) {

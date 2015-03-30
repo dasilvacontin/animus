@@ -27,6 +27,7 @@ EntriesController.prototype.attach = function(el) {
     _this.onKeydown(evt);
   });
   this.$el.find('input').on('input', this.onInputChange.bind(this));
+  this.$el.find('input').focus();
 };
 
 EntriesController.prototype.onKeydown = function(evt) {
