@@ -40,6 +40,7 @@ EntriesController.prototype.onKeydown = function(evt) {
     }
     evt.preventDefault();
   } else if (evt.keyCode === KEYCODES.ENTER) {
+    if (!input.val()) return;
     var entry = new this.model({
       title: input.val()
     });
@@ -68,6 +69,8 @@ EntriesController.prototype.addTagToQuery = function(tag) {
   console.log(tag);
   var input = this.$el.find('input');
   // TODO: check is not already part of the query
+  var query = new Query(input.val());
+  //if (!query.hasTag(tag)) {
   input.val(input.val()+tag);
   input.focus();
   // TODO: Why doesn't this fire automatticaly? trigger?
