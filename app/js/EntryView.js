@@ -30,29 +30,30 @@ util.inherits(EntryView, events.EventEmitter);
 /**
  * Generate the initial DOM element for the EntryView using the model's info.
  */
-var tagRe = /(#[a-zA-Z\d]+)/g
+var tagRe = /(#[a-z\d]+)/ig
 var tagTpl = '<span class="animus-tag">$&</span>'
 
 EntryView.prototype.createNode = function() {
-  var query = new Query(this.model.title);
-  var html = '<li>'+
-    '<span class="animus-entry-text">' + query.title.replace(tagRe, tagTpl) +
-    '</span>' + query.extraTags.replace(tagRe, tagTpl) + '</li>';
+  var html = '<li>'
+    + this.model.title.replace(tagRe, tagTpl)
+    + '</li>';
 
   this.$el = $(html);
   this.$ = this.$el.find.bind(this.$el);
 
   var self = this;
-  this.$('.animus-tag').on('click', function(evt) {
+  var animusTags = this.$('.animus-tag');
+  animusTags.on('click', function(evt) {
     var tag = evt.toElement.textContent;
     self.emit('click:tag', tag);
   })
-  this.$('.animus-tag').forEach(function(tagView) {
-    var tag = tagView.textContent;
-    self.tags[tag.substring(1)] = tagView;
+  animusTags.forEach(function(tagView) {
+    var tag = tagView.textContent.substring(1);
+    var list = (self.tags[tag] || []);
+    list.push(tagView);
+    self.tags[tag] = list;
   })
   // show-animation
-  self.$el.addClass('fix');
   setTimeout(function() {
     self.$el.addClass('visible');
   }, 16);
@@ -65,43 +66,41 @@ EntryView.prototype.createNode = function() {
  * @param {Query} query
  */
 EntryView.prototype.applyQuery = function(query) {
-  // TODO: this must be super efficient</sarcasm>
-  for (var tag in this.tags) {
-    var tagView = this.tags[tag];
-    $(tagView).removeClass('high');
-  }
   var matches = 0;
-  for (var i = 0; i < query.tags.length; ++i) {
-    var tag = query.tags[i];
-    var tagView = this.tags[tag];
-    if (tagView) {
-      $(tagView).addClass('high');
-      ++matches;
-    }
-  }
-  var exactMatch = (
-    (this.model.title.indexOf(query.title) >= 0) ||
-    (query.tags.length == 0 && (!query.title || query.title == '#')) ||
-    (query.tags.length > 0 && matches == query.tags.length)
-  );
-  // TODO: softMatch condition
-  var softMatch = false;
-  this.setVisible(exactMatch || softMatch);
 
-  if (this.visible && !exactMatch) {
-    console.log('soft match');
-    this.$el.addClass('soft');
-  } else {
-    this.$el.removeClass('soft');
+  for (var tag in this.tags) {
+    var tagList = this.tags[tag];
+    var tagInQuery = query.hasTag(tag);
+    for (var i = 0; i < tagList.length; ++i) {
+      var tagView = tagList[i];
+      $(tagView)[tagInQuery ? 'addClass' : 'removeClass']('high');
+    }
+    matches += tagList.length * tagInQuery;
   }
+
+  var exactMatch = (
+    (query.tagCount == 0 && (!query.title || query.title == '#')) ||
+    (query.tagCount > 0 && matches >= query.tagCount)
+  );
+
+  // TODO: softMatch condition
+  var softMatch = (this.model.title.indexOf(query.title) >= 0);
+  this.setVisible(exactMatch);
+
+  if (softMatch)
+    matches += 0.5;
+
+  console.log('matchScore', this.model.title, matches, 'exactMatch:', exactMatch);
+
+  return matches;
 }
 
 EntryView.prototype.setVisible = function (bool) {
   if (bool && !this.visible) {
-    this.$el.addClass('visible fix');
+    this.$el.removeClass('soft');
     this.visible = true;
   } else if (!bool && this.visible) {
-    this.$el.removeClass('visible fix');
+    this.$el.addClass('soft');
     this.visible = false;
   }
 }

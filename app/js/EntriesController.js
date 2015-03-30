@@ -40,9 +40,10 @@ EntriesController.prototype.onKeydown = function(evt) {
     }
     evt.preventDefault();
   } else if (evt.keyCode === KEYCODES.ENTER) {
-    if (!input.val()) return;
+    var val = input.val();
+    if (!val) return;
     var entry = new this.model({
-      title: input.val()
+      title: val
     });
     this.addEntry(entry);
     input.val('');
@@ -68,10 +69,17 @@ EntriesController.prototype.addEntry = function(entry) {
 EntriesController.prototype.addTagToQuery = function(tag) {
   console.log(tag);
   var input = this.$el.find('input');
-  // TODO: check is not already part of the query
-  var query = new Query(input.val());
-  //if (!query.hasTag(tag)) {
-  input.val(input.val()+tag);
+  var val = input.val();
+  var query = new Query(val);
+  if (!query.hasTag(tag)) {
+    // Add tag to query
+    input.val(val + tag);
+  } else {
+    // Tags only have [#a-zA-Z], so don't worry about escaping regex
+    var replacingTagRe = new RegExp(tag, 'g');
+    var newVal = val.replace(replacingTagRe, '');
+    input.val(newVal);
+  }
   input.focus();
   // TODO: Why doesn't this fire automatticaly? trigger?
   this.onInputChange({srcElement: input[0]});
