@@ -1,5 +1,5 @@
-'use strict';
-var Promise = require('bluebird');
+'use strict'
+var Promise = require('bluebird')
 
 /**
  * Emits an event on an EventEmitter. If the handlers return a promise, it
@@ -13,10 +13,10 @@ var Promise = require('bluebird');
  * @return {Promise<Array>}
  */
 
-exports.emitP = function emitP(emitter, event, args) {
-  args = Array.prototype.slice.call(args, 2);
-  return Promise.map(emitter.listeners(event), function(handler) {
-    var result = handler.apply(emitter, args);
-    return result;
-  });
-};
+exports.emitP = function emitP (emitter, event, args) {
+  args = Array.prototype.slice.call(args, 2)
+  return Promise.map(emitter.listeners(event), function (handler) {
+    var result = handler.apply(emitter, args)
+    return result
+  })
+}
