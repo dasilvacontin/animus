@@ -23,6 +23,7 @@ function EntryView (model) {
   this.tags = {}
   this.createNode()
   this.visible = true
+  this.matchScore = 0
 }
 util.inherits(EntryView, events.EventEmitter)
 
@@ -90,7 +91,7 @@ EntryView.prototype.applyQuery = function (query) {
 
   console.log('matchScore', this.model.title, matches, 'exactMatch:', exactMatch)
 
-  return matches
+  this.matchScore = matches
 }
 
 EntryView.prototype.setVisible = function (bool) {

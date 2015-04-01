@@ -102,4 +102,11 @@ EntriesController.prototype.onInputChange = function (evt) {
     var entryView = this.entryViewList[i]
     entryView.applyQuery(query)
   }
+  this.entryViewList = _.sortByOrder(this.entryViewList, ['matchScore'], [false])
+  var ul = this.$el.find('ul').remove()
+  for (var i = 0; i < this.entryViewList.length; ++i) {
+    var entryView = this.entryViewList[i]
+    ul.append(entryView.$el)
+  }
+  this.$el.append(ul)
 }
