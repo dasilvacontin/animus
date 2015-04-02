@@ -17,6 +17,7 @@ module.exports = exports = EntriesController
 function EntriesController () {
   Controller.apply(this, arguments)
   this.entryViewList = []
+  this.active = false
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
@@ -24,12 +25,13 @@ _.mixin(EntriesController, Controller)
 EntriesController.prototype.attach = function (el) {
   var _this = this
   Controller.prototype.attach.call(this, el)
-  var input = this.$el
-  input.on('keydown', function (evt) {
+  var view = this.$el
+  view.on('keydown', function (evt) {
     _this.onKeydown(evt)
   })
-  this.$el.find('input').on('input', this.onInputChange.bind(this))
-  this.$el.find('input').focus()
+  var input = this.$el.find('input')
+  input.on('input', this.onInputChange.bind(this))
+  input.focus()
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
@@ -97,7 +99,6 @@ EntriesController.prototype.addTagToQuery = function (tag) {
  *
  * @param {Event} evt
  */
-
 EntriesController.prototype.onInputChange = function (evt) {
   var input = evt.srcElement
   var query = new Query(input.value)

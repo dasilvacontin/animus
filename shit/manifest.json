@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["bundle.js"],
     "persistent": false
   },
   "commands": {
@@ -16,13 +16,11 @@
       "description": "Toggle Animus"
     }
   },
-  "content_scripts": [{
-    "matches": ["http://*/*", "https://*/*"],
-    "js": ["bundle.js"],
-    "css": ["all.css"]
+  "content_scripts": [ {
+    "matches": [ "http://*/*", "https://*/*"],
+    "js": [ "shit.js" ]
   }],
   "homepage_url": "https://github.com/dasilvacontin/animus",
   "offline_enabled": true,
-  "permissions": ["storage"],
-  "web_accessible_resources": ["bundle.js.map"]
+  "permissions": ["storage"]
 }

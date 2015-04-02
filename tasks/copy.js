@@ -9,7 +9,7 @@ exports.img = function() {
 };
 
 exports.other = function() {
-  return gulp.src('./app/**/*.json')
+  return gulp.src('./app/*.{json,js}')
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
 };
