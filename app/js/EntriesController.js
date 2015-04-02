@@ -1,8 +1,11 @@
 'use strict'
 var util = require('util')
 var _ = require('lodash')
+var zepto = require('zepto-browserify')
 var Controller = require('./controller')
 var Query = require('./Query')
+
+var $ = zepto.$
 
 var KEYCODES = {
   ENTER: 13,
@@ -110,4 +113,5 @@ EntriesController.prototype.onInputChange = function (evt) {
     ul.append(entryView.$el)
   }
   this.$el.append(ul)
+  $(input)[query.title ? 'addClass' : 'removeClass']('has-content')
 }

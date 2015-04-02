@@ -12,6 +12,7 @@ html, body {
   background-image: url('img/wired.png');
   background-size: cover;
   transition: -webkit-filter 1s, filter 1s;
+  transform: translate3d(0,0,0); /* creates its own layer */
 }
 .blurred {
   filter: blur(15px);
@@ -126,6 +127,8 @@ html, body {
 
 .animus-view input:focus {
   border-color: #4A90E2;
+}
+.animus-view input:focus, .animus-view input.has-content {
   color: #4A90E2;
 }
 
