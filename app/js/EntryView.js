@@ -85,7 +85,7 @@ EntryView.prototype.applyQuery = function (query) {
 
   // TODO: softMatch condition
   var softMatch = (this.model.title.indexOf(query.title) >= 0)
-  this.setVisible(exactMatch)
+  this.setVisible(exactMatch || softMatch)
 
   if (softMatch) matches += 0.5
 
