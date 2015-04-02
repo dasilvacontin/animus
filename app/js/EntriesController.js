@@ -98,14 +98,15 @@ EntriesController.prototype.addTagToQuery = function (tag) {
 EntriesController.prototype.onInputChange = function (evt) {
   var input = evt.srcElement
   var query = new Query(input.value)
+  var entryView
   for (var i = 0; i < this.entryViewList.length; ++i) {
-    var entryView = this.entryViewList[i]
+    entryView = this.entryViewList[i]
     entryView.applyQuery(query)
   }
   this.entryViewList = _.sortByOrder(this.entryViewList, ['matchScore'], [false])
   var ul = this.$el.find('ul').remove()
-  for (var i = 0; i < this.entryViewList.length; ++i) {
-    var entryView = this.entryViewList[i]
+  for (i = 0; i < this.entryViewList.length; ++i) {
+    entryView = this.entryViewList[i]
     ul.append(entryView.$el)
   }
   this.$el.append(ul)
