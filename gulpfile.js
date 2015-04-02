@@ -5,6 +5,6 @@ var loadDirectory = require('gulp-load-directory');
 
 loadDirectory(path.join(__dirname, 'tasks'));
 
-gulp.task('default', ['browserify', 'copy'], function() {
+gulp.task('default', ['browserify', 'copy', 'autoprefix'], function() {
   process.exit(0);
 });
