@@ -66,7 +66,7 @@ EntriesController.prototype.addEntry = function (entry) {
   entryView.on('click:tag', this.addTagToQuery.bind(this))
   var list = this.$el.find('.animus-entry-list')
   list.prepend(entryView.$el)
-  this.entryViewList.push(entryView)
+  this.entryViewList.unshift(entryView)
 }
 
 /**
