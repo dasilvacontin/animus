@@ -64,6 +64,6 @@ function showAnimus (flag) {
     $(animus).addClass('hide')
     animusTimeout = setTimeout(function () {
       $(animus).remove()
-    }, 1000)
+    }, 500)
   }
 }

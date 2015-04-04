@@ -12,7 +12,7 @@ html, body {
   background-size: cover;
 }
 .blurred {
-  transition: -webkit-filter 1s, filter 1s;
+  transition: -webkit-filter 0.5s, filter 0.5s;
   transform: translate3d(0,0,0); /* creates its own layer */
   filter: blur(15px);
 }
@@ -28,7 +28,7 @@ html, body {
   top: 0px;
   left: 0px;
   z-index: 9999;
-  transition: opacity 1s;
+  transition: opacity 0.5s;
   font-family: 'Open Sans', sans-serif;
 }
 #animus.hide {
@@ -114,7 +114,7 @@ html, body {
   border: none;
   box-shadow: none;
   border-radius: 0;
-  
+
   width: 100%;
   min-width: 300px;
   font-family: 'Open Sans', sans-serif;
