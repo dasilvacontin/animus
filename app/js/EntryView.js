@@ -42,6 +42,9 @@ EntryView.prototype.createNode = function () {
   this.$ = this.$el.find.bind(this.$el)
 
   var self = this
+  this.$el.on('mouseover', function (evt) {
+    self.emit('hover', self)
+  })
   var animusTags = this.$('.animus-tag')
   animusTags.on('click', function (evt) {
     var tag = evt.toElement.textContent
@@ -102,4 +105,13 @@ EntryView.prototype.setVisible = function (bool) {
     this.$el.addClass('soft')
     this.visible = false
   }
+}
+
+/**
+ * Display the EntryView as selected or not selected.
+ *
+ * @param {Boolean} flag
+ */
+EntryView.prototype.setSelected = function (flag) {
+  this.$el[flag ? 'addClass' : 'removeClass']('selected')
 }

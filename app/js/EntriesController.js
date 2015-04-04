@@ -19,6 +19,7 @@ function EntriesController () {
   this.entryViewList = []
   this.active = false
   this.bindedOnKeydown = this.onKeydown.bind(this)
+  this.selectedEntryView = null
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
@@ -77,6 +78,7 @@ EntriesController.prototype.addEntry = function (entry) {
   var ModelView = this.modelView
   var entryView = new ModelView(entry)
   entryView.on('click:tag', this.addTagToQuery.bind(this))
+  entryView.on('hover', this.selectEntryView.bind(this))
   var list = this.$el.find('.animus-entry-list')
   list.prepend(entryView.$el)
   this.entryViewList.unshift(entryView)
@@ -127,4 +129,18 @@ EntriesController.prototype.onInputChange = function (evt) {
   }
   this.$el.append(ul)
   $(input)[query.title ? 'addClass' : 'removeClass']('has-content')
+}
+
+/**
+ * Select the given EntryView
+ *
+ * @param {EntryView} entryView
+ */
+EntriesController.prototype.selectEntryView = function (entryView) {
+  console.log(entryView)
+  if (this.selectedEntryView) {
+    this.selectedEntryView.setSelected(false)
+  }
+  entryView.setSelected(true)
+  this.selectedEntryView = entryView
 }
