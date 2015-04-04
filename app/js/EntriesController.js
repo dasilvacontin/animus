@@ -54,8 +54,12 @@ EntriesController.prototype.onKeydown = function (evt) {
     case KEYCODES.TAB:
       if (document.activeElement === this.input[0]) {
         this.input.blur()
+        if (this.entryViewList.length > 0) {
+          this.selectEntryView(this.entryViewList[0])
+        }
       } else {
         this.input.focus()
+        this.selectEntryView(null)
       }
       evt.preventDefault()
       break
@@ -137,10 +141,11 @@ EntriesController.prototype.onInputChange = function (evt) {
  * @param {EntryView} entryView
  */
 EntriesController.prototype.selectEntryView = function (entryView) {
-  console.log(entryView)
   if (this.selectedEntryView) {
     this.selectedEntryView.setSelected(false)
   }
-  entryView.setSelected(true)
+  if (entryView) {
+    entryView.setSelected(true)
+  }
   this.selectedEntryView = entryView
 }
