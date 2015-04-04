@@ -1,6 +1,5 @@
-'use strict' /* global chrome */
+'use strict'
 var zepto = require('zepto-browserify')
-var ifvisible = window.ifvisible = require('./ifvisible')
 var EntriesController = require('./EntriesController')
 var Entry = require('./Entry')
 var EntryView = require('./EntryView')
@@ -9,22 +8,15 @@ var $ = zepto.$
 var controller
 
 console.log('animus operative')
-ifvisible.now() // force init of listeners until the issue/bug is solved
 
 /* TODO: Refactor into a AnimusController class. */
 var animusTemplate = "<div id='animus' class='hide'><div class='animus-view'><input class='animus-new-entry-input' type='text' placeholder='animus'></input><ul class='animus-entry-list'></ul></div></div>"
 var animus = $(animusTemplate)
 
 /**
- * Handles logic for the different key shortcuts.
- *
- * @param {String} command
+ * Expose toggle function that will be called by the background process.
  */
-var socket = chrome.runtime.connect()
-socket.onMessage.addListener(function (command) {
-  console.log(+new Date, 'ifvisible.now()', ifvisible.now())
-  if (!ifvisible.now()) return
-
+window.toggleAnimus = function () {
   if (!controller) {
     controller = new EntriesController({
       el: $(animus).find('.animus-view'),
@@ -33,13 +25,10 @@ socket.onMessage.addListener(function (command) {
     })
   }
 
-  if (command === 'toggle-animus') {
-    blurPage(!controller.active)
-    if (!controller.active) $('body').append(animus)
-    showAnimus(!controller.active)
-    controller.active = !controller.active
-  }
-})
+  blurPage(!controller.active)
+  showAnimus(!controller.active)
+  controller.active = !controller.active
+}
 
 var blurredNodes = []
 function blurPage (flag) {
@@ -50,6 +39,7 @@ function blurPage (flag) {
     var rootNodes = document.body.children
     for (i = 0; i < rootNodes.length; ++i) {
       node = rootNodes[i]
+      if (node === animus[0]) continue
       $(node).addClass('blurred')
       blurredNodes.push(node)
     }
@@ -61,13 +51,18 @@ function blurPage (flag) {
   }
 }
 
+var animusTimeout
 function showAnimus (flag) {
   if (flag === undefined) flag = true
-  setTimeout(function () {
-    $(animus)[flag ? 'removeClass' : 'addClass']('hide')
-  }, 16)
-  if (!flag) {
-    setTimeout(function () {
+  clearTimeout(animusTimeout)
+  if (flag) {
+    $('body').append(animus)
+    animusTimeout = setTimeout(function () {
+      $(animus).removeClass('hide')
+    }, 16)
+  } else {
+    $(animus).addClass('hide')
+    animusTimeout = setTimeout(function () {
       $(animus).remove()
     }, 1000)
   }

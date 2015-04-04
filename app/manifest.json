@@ -23,6 +23,10 @@
   }],
   "homepage_url": "https://github.com/dasilvacontin/animus",
   "offline_enabled": true,
-  "permissions": ["storage"],
+  "permissions": [
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ],
   "web_accessible_resources": ["bundle.js.map"]
 }

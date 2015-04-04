@@ -1,31 +1,16 @@
-var sockets = []
-
-function forEachSocket (cb) {
-	for (var i = 0; i < sockets.length; ++i) {
-		var socket = sockets[i]
-		cb(socket)
-	}
-}
-
-function broadcastMessage (msg) {
-	console.log('broadcast msg:', msg)
-	forEachSocket(function (socket) {
-		socket.postMessage(msg)
-	})
-}
+/* global chrome */
+console.log('voila!')
 
 chrome.commands.onCommand.addListener(function (command) {
-	console.log('command:', command)
-	broadcastMessage(command)
+  console.log('command:', command)
+  chrome.tabs.query({
+    active: true, // the active tab
+    lastFocusedWindow: true // in the active window
+  }, function (tabArray) {
+    var activeTab = tabArray[0]
+    if (!activeTab) throw new Error('no active tab (?)')
+    chrome.tabs.executeScript(activeTab.id, {
+      code: 'toggleAnimus()'
+    })
+  })
 })
-
-chrome.runtime.onConnect.addListener(function (socket) {
-	console.log('new socket')
-	sockets.push(socket)
-	socket.onDisconnect.addListener(function () {
-		var i = sockets.indexOf(socket)
-		if (i > -1) sockets.splice(i, 1)
-	})
-})
-
-console.log('voila!')

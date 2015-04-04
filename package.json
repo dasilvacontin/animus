@@ -4,7 +4,7 @@
   "description": "the element of a person that enables them to be aware of the world and their experiences, to think, and to feel",
   "main": "app/js/index.js",
   "scripts": {
-    "test": "standard app/js/*.js"
+    "test": "standard app/**.js"
   },
   "repository": {
     "type": "git",
