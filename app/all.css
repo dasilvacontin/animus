@@ -70,8 +70,7 @@ html, body {
   opacity: 0;
   transition: opacity 0.5s;
   transition-duration: 0.5s;
-  margin: 30px 0px;
-  padding-left: 8px;
+  padding: 15px 0px 15px 8px;
   position: relative;
 }
 .animus-view ul li.visible {
@@ -84,7 +83,7 @@ html, body {
   content: '';
   display: block;
   position: absolute;
-  top: 15px;
+  top: 30px;
   left: -15px;
   width: 8px;
   height: 8px;

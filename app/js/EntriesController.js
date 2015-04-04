@@ -28,13 +28,14 @@ EntriesController.prototype.attach = function (el) {
   Controller.prototype.attach.call(this, el)
   this.input = this.$el.find('input')
   this.input.on('input', this.onInputChange.bind(this))
+  this.input.on('focus', this.onFocusInput.bind(this))
 }
 
 EntriesController.prototype.setActive = function (flag) {
   flag = !!flag
   if (!this.active && flag) {
     this.attachKeyListener()
-    this.input.focus()
+    this.focusInput()
   } else if (this.active && !flag) {
     this.detachKeyListener()
   }
@@ -52,15 +53,8 @@ EntriesController.prototype.detachKeyListener = function () {
 EntriesController.prototype.onKeydown = function (evt) {
   switch (evt.keyCode) {
     case KEYCODES.TAB:
-      if (document.activeElement === this.input[0]) {
-        this.input.blur()
-        if (this.entryViewList.length > 0) {
-          this.selectEntryView(this.entryViewList[0])
-        }
-      } else {
-        this.input.focus()
-        this.selectEntryView(null)
-      }
+      if (this.inputIsFocused()) this.focusFirstEntry()
+      else this.focusInput()
       evt.preventDefault()
       break
     case KEYCODES.ENTER:
@@ -82,7 +76,7 @@ EntriesController.prototype.addEntry = function (entry) {
   var ModelView = this.modelView
   var entryView = new ModelView(entry)
   entryView.on('click:tag', this.addTagToQuery.bind(this))
-  entryView.on('hover', this.selectEntryView.bind(this))
+  entryView.on('hover', this.hoveredEntryView.bind(this))
   var list = this.$el.find('.animus-entry-list')
   list.prepend(entryView.$el)
   this.entryViewList.unshift(entryView)
@@ -107,7 +101,7 @@ EntriesController.prototype.addTagToQuery = function (tag) {
     var newVal = val.replace(replacingTagRe, '')
     this.input.val(newVal)
   }
-  this.input.focus()
+  this.focusInput()
   // TODO: Why doesn't this fire automatticaly? trigger?
   this.onInputChange({srcElement: this.input[0]})
 }
@@ -136,6 +130,20 @@ EntriesController.prototype.onInputChange = function (evt) {
 }
 
 /**
+ * Callback for when an EntryView is hovered.
+ * @param {EntryView} entryView
+ */
+EntriesController.prototype.hoveredEntryView = function (entryView) {
+  console.log('hovered', entryView)
+  if (entryView) {
+    this.selectEntryView(entryView)
+    this.input.blur()
+  } else {
+    this.input.focus()
+  }
+}
+
+/**
  * Select the given EntryView
  *
  * @param {EntryView} entryView
@@ -148,4 +156,23 @@ EntriesController.prototype.selectEntryView = function (entryView) {
     entryView.setSelected(true)
   }
   this.selectedEntryView = entryView
+}
+
+EntriesController.prototype.inputIsFocused = function () {
+  return document.activeElement === this.input[0]
+}
+
+EntriesController.prototype.focusInput = function () {
+  this.input.focus()
+}
+
+EntriesController.prototype.onFocusInput = function (evt) {
+  this.selectEntryView(null)
+}
+
+EntriesController.prototype.focusFirstEntry = function () {
+  if (this.entryViewList.length > 0) {
+    this.selectEntryView(this.entryViewList[0])
+  }
+  this.input.blur()
 }

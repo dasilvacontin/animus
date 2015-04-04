@@ -45,6 +45,9 @@ EntryView.prototype.createNode = function () {
   this.$el.on('mouseover', function (evt) {
     self.emit('hover', self)
   })
+  this.$el.on('mouseout', function (evt) {
+    self.emit('hover', null)
+  })
   var animusTags = this.$('.animus-tag')
   animusTags.on('click', function (evt) {
     var tag = evt.toElement.textContent
