@@ -25,15 +25,15 @@ _.mixin(EntriesController, Controller)
 
 EntriesController.prototype.attach = function (el) {
   Controller.prototype.attach.call(this, el)
-  var input = this.$el.find('input')
-  input.on('input', this.onInputChange.bind(this))
-  input.focus()
+  this.input = this.$el.find('input')
+  this.input.on('input', this.onInputChange.bind(this))
 }
 
 EntriesController.prototype.setActive = function (flag) {
   flag = !!flag
   if (!this.active && flag) {
     this.attachKeyListener()
+    this.input.focus()
   } else if (this.active && !flag) {
     this.detachKeyListener()
   }
@@ -49,27 +49,26 @@ EntriesController.prototype.detachKeyListener = function () {
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
-  var input = this.$el.find('input')
   switch (evt.keyCode) {
     case KEYCODES.TAB:
-      if (document.activeElement === input[0]) {
-        input.blur()
+      if (document.activeElement === this.input[0]) {
+        this.input.blur()
       } else {
-        input.focus()
+        this.input.focus()
       }
       evt.preventDefault()
       break
     case KEYCODES.ENTER:
-      var val = input.val()
+      var val = this.input.val()
       if (!val) return
       var Model = this.model
       var entry = new Model({
         title: val
       })
       this.addEntry(entry)
-      input.val('')
+      this.input.val('')
       // TODO: Why doesn't this fire automatticaly? trigger?
-      this.onInputChange({srcElement: input[0]})
+      this.onInputChange({srcElement: this.input[0]})
       break
   }
 }
@@ -91,21 +90,20 @@ EntriesController.prototype.addEntry = function (entry) {
 
 EntriesController.prototype.addTagToQuery = function (tag) {
   console.log(tag)
-  var input = this.$el.find('input')
-  var val = input.val()
+  var val = this.input.val()
   var query = new Query(val)
   if (!query.hasTag(tag)) {
     // Add tag to query
-    input.val(val + tag)
+    this.input.val(val + tag)
   } else {
     // Tags only have [#a-zA-Z], so don't worry about escaping regex
     var replacingTagRe = new RegExp(tag, 'g')
     var newVal = val.replace(replacingTagRe, '')
-    input.val(newVal)
+    this.input.val(newVal)
   }
-  input.focus()
+  this.input.focus()
   // TODO: Why doesn't this fire automatticaly? trigger?
-  this.onInputChange({srcElement: input[0]})
+  this.onInputChange({srcElement: this.input[0]})
 }
 
 /**
