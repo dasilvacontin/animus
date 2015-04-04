@@ -18,20 +18,34 @@ function EntriesController () {
   Controller.apply(this, arguments)
   this.entryViewList = []
   this.active = false
+  this.bindedOnKeydown = this.onKeydown.bind(this)
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
 
 EntriesController.prototype.attach = function (el) {
-  var _this = this
   Controller.prototype.attach.call(this, el)
-  var view = this.$el
-  view.on('keydown', function (evt) {
-    _this.onKeydown(evt)
-  })
   var input = this.$el.find('input')
   input.on('input', this.onInputChange.bind(this))
   input.focus()
+}
+
+EntriesController.prototype.setActive = function (flag) {
+  flag = !!flag
+  if (!this.active && flag) {
+    this.attachKeyListener()
+  } else if (this.active && !flag) {
+    this.detachKeyListener()
+  }
+  this.active = flag;
+}
+
+EntriesController.prototype.attachKeyListener = function () {
+  document.addEventListener('keydown', this.bindedOnKeydown)
+}
+
+EntriesController.prototype.detachKeyListener = function () {
+  document.removeEventListener('keydown', this.bindedOnKeydown)
 }
 
 EntriesController.prototype.onKeydown = function (evt) {

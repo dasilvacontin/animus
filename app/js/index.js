@@ -27,7 +27,7 @@ window.toggleAnimus = function () {
 
   blurPage(!controller.active)
   showAnimus(!controller.active)
-  controller.active = !controller.active
+  controller.setActive(!controller.active)
 }
 
 var blurredNodes = []
