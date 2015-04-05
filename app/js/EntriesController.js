@@ -9,7 +9,10 @@ var $ = zepto.$
 
 var KEYCODES = {
   ENTER: 13,
-  TAB: 9
+  TAB: 9,
+
+  J: 74,
+  K: 75
 }
 
 module.exports = exports = EntriesController
@@ -20,6 +23,7 @@ function EntriesController () {
   this.active = false
   this.bindedOnKeydown = this.onKeydown.bind(this)
   this.selectedEntryView = null
+  this.selectedEntryViewIndex = -1
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
@@ -51,24 +55,51 @@ EntriesController.prototype.detachKeyListener = function () {
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
-  switch (evt.keyCode) {
-    case KEYCODES.TAB:
-      if (this.inputIsFocused()) this.focusFirstEntry()
-      else this.focusInput()
-      evt.preventDefault()
-      break
-    case KEYCODES.ENTER:
-      var val = this.input.val()
-      if (!val) return
-      var Model = this.model
-      var entry = new Model({
-        title: val
-      })
-      this.addEntry(entry)
-      this.input.val('')
-      // TODO: Why doesn't this fire automatticaly? trigger?
-      this.onInputChange({srcElement: this.input[0]})
-      break
+  if (this.inputIsFocused()) {
+    switch (evt.keyCode) {
+
+      case KEYCODES.TAB:
+        this.focusFirstEntry()
+        break
+
+      case KEYCODES.ENTER:
+        // TODO: Refactor this into a function
+        var val = this.input.val()
+        if (!val) return
+        var Model = this.model
+        var entry = new Model({
+          title: val
+        })
+        this.addEntry(entry)
+        this.input.val('')
+        // TODO: Why doesn't this fire automatticaly? trigger?
+        this.onInputChange({srcElement: this.input[0]})
+        break
+
+    }
+  } else {
+    switch (evt.keyCode) {
+
+      case KEYCODES.TAB:
+        this.focusInput()
+        evt.preventDefault()
+        break
+
+      case KEYCODES.J:
+        var index = this.selectedEntryViewIndex
+        index = Math.max(0, index - 1)
+        this.selectEntryViewAtIndex(index)
+        evt.preventDefault()
+        break
+
+        case KEYCODES.K:
+          var index = this.selectedEntryViewIndex
+          index = Math.min(this.entryViewList.length - 1, index + 1)
+          this.selectEntryViewAtIndex(index)
+          evt.preventDefault()
+          break
+
+    }
   }
 }
 
@@ -134,9 +165,8 @@ EntriesController.prototype.onInputChange = function (evt) {
  * @param {EntryView} entryView
  */
 EntriesController.prototype.hoveredEntryView = function (entryView) {
-  console.log('hovered', entryView)
   if (entryView) {
-    this.selectEntryView(entryView)
+    this.selectEntryView(this.entryViewList.indexOf(entryView))
     this.input.blur()
   } else {
     this.input.focus()
@@ -144,18 +174,23 @@ EntriesController.prototype.hoveredEntryView = function (entryView) {
 }
 
 /**
- * Select the given EntryView
+ * Select the EntryView at the given index
  *
- * @param {EntryView} entryView
+ * @param {Number} index
  */
-EntriesController.prototype.selectEntryView = function (entryView) {
+EntriesController.prototype.selectEntryViewAtIndex = function (index) {
   if (this.selectedEntryView) {
     this.selectedEntryView.setSelected(false)
   }
-  if (entryView) {
+  var entryView = null
+  if (index > -1) {
+    entryView = this.entryViewList[index]
     entryView.setSelected(true)
+  } else {
+    index = -1
   }
   this.selectedEntryView = entryView
+  this.selectedEntryViewIndex = index
 }
 
 EntriesController.prototype.inputIsFocused = function () {
@@ -167,12 +202,12 @@ EntriesController.prototype.focusInput = function () {
 }
 
 EntriesController.prototype.onFocusInput = function (evt) {
-  this.selectEntryView(null)
+  this.selectEntryViewAtIndex(-1)
 }
 
 EntriesController.prototype.focusFirstEntry = function () {
   if (this.entryViewList.length > 0) {
-    this.selectEntryView(this.entryViewList[0])
+    this.selectEntryViewAtIndex(0)
   }
   this.input.blur()
 }

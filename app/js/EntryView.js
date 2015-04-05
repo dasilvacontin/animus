@@ -95,8 +95,6 @@ EntryView.prototype.applyQuery = function (query) {
 
   if (softMatch) matches += 0.5
 
-  console.log('matchScore', this.model.title, matches, 'exactMatch:', exactMatch)
-
   this.matchScore = matches
 }
 
