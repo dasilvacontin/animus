@@ -166,7 +166,7 @@ EntriesController.prototype.onInputChange = function (evt) {
  */
 EntriesController.prototype.hoveredEntryView = function (entryView) {
   if (entryView) {
-    this.selectEntryView(this.entryViewList.indexOf(entryView))
+    this.selectEntryViewAtIndex(this.entryViewList.indexOf(entryView))
     this.input.blur()
   } else {
     this.input.focus()
