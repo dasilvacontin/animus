@@ -11,6 +11,11 @@ var KEYCODES = {
   ENTER: 13,
   TAB: 9,
 
+  A: 65,
+  E: 69,
+  D: 68,
+  U: 85,
+
   J: 74,
   K: 75
 }
@@ -55,6 +60,7 @@ EntriesController.prototype.detachKeyListener = function () {
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
+  console.log(evt.keyCode)
   if (this.inputIsFocused()) {
     switch (evt.keyCode) {
 
@@ -80,6 +86,7 @@ EntriesController.prototype.onKeydown = function (evt) {
   } else {
     switch (evt.keyCode) {
 
+      case KEYCODES.A:
       case KEYCODES.TAB:
         this.focusInput()
         evt.preventDefault()
@@ -92,12 +99,12 @@ EntriesController.prototype.onKeydown = function (evt) {
         evt.preventDefault()
         break
 
-        case KEYCODES.K:
-          var index = this.selectedEntryViewIndex
-          index = Math.min(this.entryViewList.length - 1, index + 1)
-          this.selectEntryViewAtIndex(index)
-          evt.preventDefault()
-          break
+      case KEYCODES.K:
+        var index = this.selectedEntryViewIndex
+        index = Math.min(this.entryViewList.length - 1, index + 1)
+        this.selectEntryViewAtIndex(index)
+        evt.preventDefault()
+        break
 
     }
   }
