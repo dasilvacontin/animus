@@ -116,3 +116,11 @@ EntryView.prototype.setVisible = function (bool) {
 EntryView.prototype.setSelected = function (flag) {
   this.$el[flag ? 'addClass' : 'removeClass']('selected')
 }
+
+/**
+ * Removes the view from its parent, deletes data, etc.
+ */
+EntryView.prototype.destroy = function () {
+  this.$el.remove()
+  // TODO: data w0l0l0
+}

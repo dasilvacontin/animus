@@ -106,6 +106,11 @@ EntriesController.prototype.onKeydown = function (evt) {
         this.selectEntryViewAtIndex(index)
         break
 
+      case KEYCODES.D:
+        this.deleteSelectedEntry()
+        // since we might end up focusing the input when no entries are left
+        evt.preventDefault()
+        break
     }
   }
 }
@@ -198,6 +203,26 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index) {
   }
   this.selectedEntryView = entryView
   this.selectedEntryViewIndex = index
+}
+
+/**
+ * Removes from the list and deletes data of the selected entry.
+ *
+ * A double-linked list would allow faster delete. Even though we have to
+ * support random access entry selecting due to being able to hover entries, it
+ * could be solved by referencing the list item from the EntryView.
+ * (yay circular references)
+ */
+EntriesController.prototype.deleteSelectedEntry = function () {
+  var index = this.selectedEntryViewIndex
+  if (index < 0) return
+  var deletedItems = this.entryViewList.splice(index, 1)
+  var entryView = deletedItems[0]
+  entryView.destroy()
+  this.selectedEntryView = null
+  while (index >= this.entryViewList.length) --index
+  this.selectEntryViewAtIndex(index)
+  if (!this.selectedEntryView) this.input.focus()
 }
 
 EntriesController.prototype.inputIsFocused = function () {
