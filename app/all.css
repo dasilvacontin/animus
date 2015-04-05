@@ -30,6 +30,7 @@ html, body {
   z-index: 9999;
   transition: opacity 0.5s;
   font-family: 'Open Sans', sans-serif;
+  overflow-y: scroll;
 }
 #animus.hide {
   opacity: 0;
@@ -52,7 +53,7 @@ html, body {
 .animus-entry-list {
   list-style-type: none;
   padding: 0px;
-  overflow: visible;
+  overflow: visible; /* some websites override this */
 }
 .animus-entry-list:last-child {
   margin-bottom: 100px;
