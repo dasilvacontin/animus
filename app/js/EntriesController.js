@@ -52,23 +52,25 @@ EntriesController.prototype.setActive = function (flag) {
 }
 
 EntriesController.prototype.attachKeyListener = function () {
-  document.addEventListener('keydown', this.bindedOnKeydown)
+  document.addEventListener('keydown', this.bindedOnKeydown, true)
 }
 
 EntriesController.prototype.detachKeyListener = function () {
-  document.removeEventListener('keydown', this.bindedOnKeydown)
+  document.removeEventListener('keydown', this.bindedOnKeydown, true)
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
-  console.log(evt.keyCode)
+  evt.stopPropagation()
   if (this.inputIsFocused()) {
     switch (evt.keyCode) {
 
       case KEYCODES.TAB:
         this.focusFirstEntry()
+        evt.preventDefault()
         break
 
       case KEYCODES.ENTER:
+        evt.preventDefault()
         // TODO: Refactor this into a function
         var val = this.input.val()
         if (!val) return
@@ -96,14 +98,12 @@ EntriesController.prototype.onKeydown = function (evt) {
         var index = this.selectedEntryViewIndex
         index = Math.max(0, index - 1)
         this.selectEntryViewAtIndex(index)
-        evt.preventDefault()
         break
 
       case KEYCODES.K:
         var index = this.selectedEntryViewIndex
         index = Math.min(this.entryViewList.length - 1, index + 1)
         this.selectEntryViewAtIndex(index)
-        evt.preventDefault()
         break
 
     }
