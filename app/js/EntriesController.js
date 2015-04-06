@@ -157,19 +157,26 @@ EntriesController.prototype.addTagToQuery = function (tag) {
 EntriesController.prototype.onInputChange = function (evt) {
   var input = evt.srcElement
   var query = new Query(input.value)
-  var entryView
   for (var i = 0; i < this.entryViewList.length; ++i) {
-    entryView = this.entryViewList[i]
+    var entryView = this.entryViewList[i]
     entryView.applyQuery(query)
   }
   this.entryViewList = _.sortByOrder(this.entryViewList, ['matchScore'], [false])
-  var ul = this.$el.find('ul').remove()
-  for (i = 0; i < this.entryViewList.length; ++i) {
-    entryView = this.entryViewList[i]
-    ul.append(entryView.$el)
-  }
-  this.$el.append(ul)
+  this.renderList()
   $(input)[query.title ? 'addClass' : 'removeClass']('has-content')
+}
+
+/**
+ * Relocates EntryViews
+ */
+EntriesController.prototype.renderList = function (startIndex) {
+  startIndex = Math.max(startIndex || 0, 0)
+  for (var i = startIndex; i < this.entryViewList.length; ++i) {
+    var entryView = this.entryViewList[i]
+    entryView.$el.css('transform', 'translateY(' + i*63 + 'px)')
+  }
+  var height = this.entryViewList.length * 63
+  this.$('.animus-entry-list').css('height', height + 'px')
 }
 
 /**
@@ -219,6 +226,7 @@ EntriesController.prototype.deleteSelectedEntry = function () {
   var deletedItems = this.entryViewList.splice(index, 1)
   var entryView = deletedItems[0]
   entryView.destroy()
+  this.renderList(index)
   this.selectedEntryView = null
   while (index >= this.entryViewList.length) --index
   this.selectEntryViewAtIndex(index)

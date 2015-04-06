@@ -54,6 +54,7 @@ html, body {
   list-style-type: none;
   padding: 0px;
   overflow: visible; /* some websites override this */
+  position: relative;
 }
 .animus-entry-list:last-child {
   margin-bottom: 100px;
@@ -63,10 +64,12 @@ html, body {
   font-size: 24px;
   color: #4A4A4A;
   opacity: 0;
-  transition: opacity 0.5s;
-  transition-duration: 0.5s;
+  transition: opacity 0.5s, transform 0.5s;
   padding: 15px 0px 15px 8px;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
 }
 .animus-view ul li.visible {
   opacity: 1;
