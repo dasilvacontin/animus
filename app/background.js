@@ -10,7 +10,7 @@ chrome.commands.onCommand.addListener(function (command) {
     var activeTab = tabArray[0]
     if (!activeTab) throw new Error('no active tab (?)')
     chrome.tabs.executeScript(activeTab.id, {
-      code: 'toggleAnimus()'
+      file: 'toggler.js'
     })
   })
 })
