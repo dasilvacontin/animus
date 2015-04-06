@@ -24,6 +24,11 @@ function EntryView (model) {
   this.createNode()
   this.visible = true
   this.matchScore = 0
+
+  var self = this
+  this.model.on('destroy', function () {
+    self.destroy()
+  })
 }
 util.inherits(EntryView, events.EventEmitter)
 
@@ -118,7 +123,15 @@ EntryView.prototype.setSelected = function (flag) {
 }
 
 /**
- * Removes the view from its parent, deletes data, etc.
+ * Destroy model. Model alerts depending views, etc.
+ */
+EntryView.prototype.deleteEntry = function (hint) {
+  this.hint = hint
+  this.model.destroy()
+}
+
+/**
+ * Removes the view from its parent, delete animations, remove listeners, etc.
  */
 EntryView.prototype.destroy = function () {
   this.$el.removeClass('selected visible')
@@ -127,5 +140,6 @@ EntryView.prototype.destroy = function () {
   setTimeout(function () {
     self.$el.remove()
   }, 500)
-  // TODO: data w0l0l0
+  if (this.hint === undefined) this.hint = -1
+  this.emit('destroy', this, this.hint)
 }

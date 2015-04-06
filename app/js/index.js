@@ -16,6 +16,7 @@ var animus = $(animusTemplate)
 /**
  * Expose toggle function that will be called by the background process.
  */
+var leWindow = window
 window.toggleAnimus = function () {
   if (!controller) {
     controller = new EntriesController({

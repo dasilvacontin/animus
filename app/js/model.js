@@ -3,9 +3,7 @@ var events = require('events')
 var _ = require('lodash')
 var observe = require('observe')
 var shortid = require('shortid')
-var eutils = require('./event-utils')
 
-var emitP = eutils.emitP
 exports = module.exports = Model
 
 /**
@@ -23,57 +21,45 @@ function Model (props) {
   if (!this.constructor.items) this.constructor.items = {}
   this.constructor.items[this.id] = this
   this.emit('add', this)
-
-  var _this = this
-  this.on('change', function () {
-    if (!_this.isDirty) _this.isDirty = true
-  })
+  this.save()
 }
 _.mixin(Model, events.EventEmitter.prototype)
 Model.prototype = observe({})
 
 /**
- * Removes the item matching a predicate. If a string is provided, removes the
- * item with that id.
- *
- * @param {{Object|String|Function}} pred
- * @return {Promise}
- */
-
-Model.destroy = function (query) {
-  if (_.isString(query) || _.isFunction(query)) {
-    this.items = _.omit(this.items, query)
-  } else {
-    this.items = _.omit(this.items, _.matches(query))
-  }
-
-  return this.sync()
-}
-
-/**
- * Synchronizes our items with the ChromeStorage. Executes and waits for
- * `before:sync` and `after:sync` hooks.
- *
- * @return {Promise}
- */
-
-Model.sync = function () {
-  var _this = this
-  var beforeP = emitP(this, 'before:sync')
-
-  return beforeP
-    .then(function () {
-      chrome.storage.sync.set(_this.items)
-      return emitP(this, 'sync')
-    })
-}
-
-/**
- * Removes the model from the collection.
- *
- * @return {Promise}
+ * Removes the model from the collection and from sync storage.
  */
 
 Model.prototype.destroy = function () {
-  return this.constructor.destroy({ id: this.id })
+  delete this.constructor.items[this.id]
+  this.emit('destroy')
+  chrome.storage.sync.remove(this.id)
+}
+
+/**
+ * Save the model in sync storage.
+ */
+
+var savedKeys = ['id', 'title', 'createdAt']
+Model.prototype.save = function () {
+  // copy important atributes
+  var saveState = {}
+  _.forEach(savedKeys, function (key) {
+    saveState[key] = this[key]
+  }.bind(this))
+
+  var floppy = {}
+  floppy[saveState.id] = saveState
+  chrome.storage.sync.set(floppy)
+}
+
+/**
+ * Update with the newValue given by chrome.storage.onChanged
+ *
+ * @param {Object} props
+ */
+
+Model.prototype.update = function (props) {
+  _.extend(this, props)
+  this.emit('update')
 }

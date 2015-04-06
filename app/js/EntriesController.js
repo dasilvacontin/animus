@@ -4,6 +4,7 @@ var _ = require('lodash')
 var zepto = require('zepto-browserify')
 var Controller = require('./controller')
 var Query = require('./Query')
+var Entry = require('./Entry')
 
 var $ = zepto.$
 
@@ -27,16 +28,49 @@ function EntriesController () {
   Controller.apply(this, arguments)
   this.entryViewList = []
   this.active = false
-  this.bindedOnKeydown = this.onKeydown.bind(this)
+
+  this.boundOnKeydown = this.onKeydown.bind(this)
+  this.boundOnDeadEntryView = this.onDeadEntryView.bind(this)
+
   this.selectedEntryView = null
-  this.selectedEntryViewIndex = -1
+  this.cachedSelectionIndex = -1
+
   this.renderList() // to center the input
+  var self = this
   window.addEventListener('resize', function () {
-    if (this.active) {
+    if (self.active) {
       // recenter the view
-      this.renderList()
+      self.renderList()
     }
-  }.bind(this))
+  })
+  chrome.storage.sync.get(null, function (items) {
+    var Model = self.model
+    Model.items = items
+    for (var id in items) {
+      var item = items[id]
+      var model = Model.fromObject(item)
+      if (model) {
+        self.addEntry(model)
+        self.renderList()
+      }
+    }
+  })
+  chrome.storage.onChanged.addListener(function (changes, area) {
+    if (area != 'sync') return
+    _.forEach(changes, function (change, id) {
+      if (!change.newValue) {
+        var entry = Entry.items[id]
+        if (entry) entry.destroy()
+      } else if (!change.oldValue && !Entry.items[id]) {
+        var entry = Entry.fromObject(change.newValue)
+        self.addEntry(entry)
+      } else {
+        var entry = Entry.items[id]
+        entry.update(change.newValue)
+      }
+    })
+    self.renderList()
+  })
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
@@ -62,11 +96,11 @@ EntriesController.prototype.setActive = function (flag) {
 }
 
 EntriesController.prototype.attachKeyListener = function () {
-  document.addEventListener('keydown', this.bindedOnKeydown, true)
+  document.addEventListener('keydown', this.boundOnKeydown, true)
 }
 
 EntriesController.prototype.detachKeyListener = function () {
-  document.removeEventListener('keydown', this.bindedOnKeydown, true)
+  document.removeEventListener('keydown', this.boundOnKeydown, true)
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
@@ -111,13 +145,13 @@ EntriesController.prototype.onKeydown = function (evt) {
         break
 
       case KEYCODES.J:
-        var index = this.selectedEntryViewIndex
+        var index = this.getSelectionIndex()
         index = Math.max(0, index - 1)
         this.selectEntryViewAtIndex(index)
         break
 
       case KEYCODES.K:
-        var index = this.selectedEntryViewIndex
+        var index = this.getSelectionIndex()
         index = Math.min(this.entryViewList.length - 1, index + 1)
         this.selectEntryViewAtIndex(index)
         break
@@ -136,6 +170,7 @@ EntriesController.prototype.addEntry = function (entry) {
   var entryView = new ModelView(entry)
   entryView.on('click:tag', this.addTagToQuery.bind(this))
   entryView.on('hover', this.hoveredEntryView.bind(this))
+  entryView.on('destroy', this.boundOnDeadEntryView)
   var list = this.$el.find('.animus-entry-list')
   list.prepend(entryView.$el)
   this.entryViewList.unshift(entryView)
@@ -147,7 +182,6 @@ EntriesController.prototype.addEntry = function (entry) {
  * @param {String} tag
  */
 EntriesController.prototype.addTagToQuery = function (tag) {
-  console.log(tag)
   var val = this.input.val()
   var query = new Query(val)
   if (!query.hasTag(tag)) {
@@ -222,6 +256,25 @@ EntriesController.prototype.hoveredEntryView = function (entryView) {
 }
 
 /**
+ * Get index of selected EntryView. We store a cache of the index, but since
+ * the entry list can be modified due to sync events, we must ensure the cached
+ * index is still correct.
+ *
+ * @return {Number} selectionIndex
+ */
+EntriesController.prototype.getSelectionIndex = function () {
+  if (!this.selectedEntryView) {
+    return -1
+  }
+  var cachedEntryView = this.entryViewList[this.cachedSelectionIndex]
+  if (cachedEntryView === this.selectedEntryView) {
+    return this.cachedSelectionIndex
+  }
+  this.cachedSelectionIndex = this.entryViewList.indexOf(this.selectedEntryView)
+  return this.cachedSelectionIndex
+}
+
+/**
  * Select the EntryView at the given index
  *
  * @param {Number} index
@@ -238,7 +291,7 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index) {
     index = -1
   }
   this.selectedEntryView = entryView
-  this.selectedEntryViewIndex = index
+  this.cachedSelectionIndex = index
 }
 
 /**
@@ -250,16 +303,39 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index) {
  * (yay circular references)
  */
 EntriesController.prototype.deleteSelectedEntry = function () {
-  var index = this.selectedEntryViewIndex
-  if (index < 0) return
-  var deletedItems = this.entryViewList.splice(index, 1)
-  var entryView = deletedItems[0]
-  entryView.destroy()
+  var index = this.getSelectionIndex()
+  var entryView = this.entryViewList[index]
+  if (!entryView) return
+  entryView.deleteEntry(index)
+}
+
+/**
+ * Dead entry view callback. It may give a `hint` about it's index in
+ * entryViewList.
+ *
+ * @param {EntryView} entryView
+ * @param {Number} hint
+ */
+EntriesController.prototype.onDeadEntryView = function (entryView, hint) {
+  var index = hint
+  if (index === -1) {
+    // TODO: improve this, hashing
+    if (this.selectedEntryView === entryView) {
+      // happy coincidence
+      index = this.getSelectionIndex()
+    } else {
+      index = this.entryViewList.indexOf(entryView)
+    }
+  }
+  if (index === -1) return
+  this.entryViewList.splice(index, 1)
   this.renderList(index)
-  this.selectedEntryView = null
-  while (index >= this.entryViewList.length) --index
-  this.selectEntryViewAtIndex(index)
-  if (!this.selectedEntryView) this.input.focus()
+  if (this.selectedEntryView === entryView) {
+    this.selectedEntryView = null
+    while (index >= this.entryViewList.length) --index
+    this.selectEntryViewAtIndex(index)
+    if (!this.selectedEntryView) this.input.focus()
+  }
 }
 
 EntriesController.prototype.inputIsFocused = function () {
