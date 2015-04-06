@@ -30,6 +30,13 @@ function EntriesController () {
   this.bindedOnKeydown = this.onKeydown.bind(this)
   this.selectedEntryView = null
   this.selectedEntryViewIndex = -1
+  this.renderList() // to center the input
+  window.addEventListener('resize', function () {
+    if (this.active) {
+      // recenter the view
+      this.renderList()
+    }
+  }.bind(this))
 }
 util.inherits(EntriesController, Controller)
 _.mixin(EntriesController, Controller)
@@ -46,6 +53,8 @@ EntriesController.prototype.setActive = function (flag) {
   if (!this.active && flag) {
     this.attachKeyListener()
     this.focusInput()
+    // recenter the view in case there was a resize whilst unactive
+    this.renderList()
   } else if (this.active && !flag) {
     this.detachKeyListener()
   }
@@ -137,7 +146,6 @@ EntriesController.prototype.addEntry = function (entry) {
  *
  * @param {String} tag
  */
-
 EntriesController.prototype.addTagToQuery = function (tag) {
   console.log(tag)
   var val = this.input.val()
@@ -182,8 +190,14 @@ EntriesController.prototype.renderList = function (startIndex) {
     var entryView = this.entryViewList[i]
     entryView.$el.css('transform', 'translateY(' + i*63 + 'px)')
   }
-  var height = this.entryViewList.length * 63
-  this.$('.animus-entry-list').css('height', height + 'px')
+  var listHeight = this.entryViewList.length * 63
+  this.$('.animus-entry-list').css('height', listHeight + 'px')
+  var inputHeight = 52
+  if (listHeight) listHeight += 30
+  var animusHeight = 100 + inputHeight + listHeight + 100
+  var animusY = (window.innerHeight - animusHeight) / 2
+  animusY = Math.max(animusY, 0)
+  this.$el.css('transform', 'translateY(' + animusY + 'px)')
 }
 
 /**
@@ -191,11 +205,19 @@ EntriesController.prototype.renderList = function (startIndex) {
  * @param {EntryView} entryView
  */
 EntriesController.prototype.hoveredEntryView = function (entryView) {
+  clearTimeout(this.focusTimeout)
   if (entryView) {
     this.selectEntryViewAtIndex(this.entryViewList.indexOf(entryView))
     this.input.blur()
   } else {
-    this.input.focus()
+    /**
+     * mouseout is called when changing hover between elements, and focusing
+     * the input scrolls, even just during the entry switch, scrolls the view
+     * to the input. not desired.
+     */
+    this.focusTimeout = setTimeout(function () {
+      this.input.focus()
+    }.bind(this), 1)
   }
 }
 

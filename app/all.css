@@ -18,9 +18,7 @@ html, body {
 }
 
 #animus {
-  display: table-cell;
   text-align: center;
-  vertical-align: middle;
   background-color: rgba(255, 255, 255, 0.85);
   width: 100%;
   height: 100%;
@@ -35,19 +33,12 @@ html, body {
 #animus.hide {
   opacity: 0;
 }
-#animus:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
 
 .animus-view {
   display: inline-block;
-  vertical-align: middle;
   margin: auto;
   text-align: left;
-  max-height: 100%;
+  transition: transform 0.5s;
 }
 
 .animus-entry-list {
