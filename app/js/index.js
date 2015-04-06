@@ -23,6 +23,7 @@ window.toggleAnimus = function () {
       model: Entry,
       modelView: EntryView
     })
+    controller.on('toggle', window.toggleAnimus)
   }
 
   blurPage(!controller.active)

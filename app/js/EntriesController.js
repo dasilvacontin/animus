@@ -10,6 +10,7 @@ var $ = zepto.$
 var KEYCODES = {
   ENTER: 13,
   TAB: 9,
+  ESC: 27,
 
   A: 65,
   E: 69,
@@ -61,6 +62,12 @@ EntriesController.prototype.detachKeyListener = function () {
 
 EntriesController.prototype.onKeydown = function (evt) {
   evt.stopPropagation()
+
+  if (evt.keyCode === KEYCODES.ESC) {
+    this.emit('toggle')
+    return
+  }
+
   if (this.inputIsFocused()) {
     switch (evt.keyCode) {
 
