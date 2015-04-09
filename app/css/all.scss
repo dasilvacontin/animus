@@ -85,7 +85,8 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 100%;
+    line-height: 33px;
+    white-space: nowrap;
 
     &.visible {
       opacity: 1;

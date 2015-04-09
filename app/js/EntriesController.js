@@ -224,6 +224,15 @@ EntriesController.prototype.renderList = function (startIndex) {
     var entryView = this.entryViewList[i]
     entryView.$el.css('transform', 'translateY(' + i*63 + 'px)')
   }
+
+  var maxWidth = 0
+  for (var i = startIndex; i < this.entryViewList.length; ++i) {
+    var entryView = this.entryViewList[i]
+    var domEl = entryView.$el[0]
+    maxWidth = Math.max(maxWidth, domEl.offsetWidth)
+  }
+  this.$('.animus-new-entry-input').css('width', maxWidth)
+
   var listHeight = this.entryViewList.length * 63
   this.$('.animus-entry-list').css('height', listHeight + 'px')
   var inputHeight = 52
