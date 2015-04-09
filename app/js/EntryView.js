@@ -37,11 +37,18 @@ util.inherits(EntryView, events.EventEmitter)
  */
 var tagRe = /(#[a-z\d]+)/ig
 var tagTpl = '<span class="animus-tag">$&</span>'
+var linkRe = /(http\S+)/ig
 
 EntryView.prototype.createNode = function () {
-  var html = '<li>'
-    + this.model.title.replace(tagRe, tagTpl)
-    + '</li>'
+
+  var text = this.model.title.replace(tagRe, tagTpl)
+  var href = text.match(linkRe)
+  text = text.replace(linkRe, '')
+
+  var html = '<li>' + text
+  if (href)
+    html += ' <a href="' + href + '">Link</a>'
+  html += '</li>'
 
   this.$el = $(html)
   this.$ = this.$el.find.bind(this.$el)
