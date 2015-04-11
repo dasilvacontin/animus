@@ -10,7 +10,7 @@ var controller
 console.log('animus operative')
 
 /* TODO: Refactor into a AnimusController class. */
-var animusTemplate = "<div id='animus' class='hide'><div class='animus-view'><input class='animus-new-entry-input' type='text' placeholder='animus'></input><ul class='animus-entry-list'></ul></div></div>"
+var animusTemplate = "<div id='animus' class='animus-hide'><div class='animus-view'><input class='animus-new-entry-input' type='text' placeholder='animus'></input><ul class='animus-entry-list'></ul></div></div>"
 var animus = $(animusTemplate)
 
 /**
@@ -60,10 +60,12 @@ function showAnimus (flag) {
   if (flag) {
     $('body').append(animus)
     animusTimeout = setTimeout(function () {
-      $(animus).removeClass('hide')
+      $(animus).removeClass('animus-hide')
+      $(document.body).addClass('animus-no-scroll')
     }, 16)
   } else {
-    $(animus).addClass('hide')
+    $(animus).addClass('animus-hide')
+    $(document.body).removeClass('animus-no-scroll')
     animusTimeout = setTimeout(function () {
       $(animus).remove()
     }, 500)
