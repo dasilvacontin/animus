@@ -68,14 +68,26 @@
       border-bottom-color: #D8D8D8;
       outline: none; /* remove that 'sexy' glow */
       margin-bottom: 30px;
-      transition: color, border-color;
-      transition-duration: 0.25s;
+      transition: color 0.25s, border-color 0.25s, width 0.5s;
       &:focus {
         border-color: #4A90E2;
         box-shadow: none;
       }
       &:focus, &.has-content {
         color: #4A90E2;
+      }
+
+      &::-webkit-input-placeholder {
+        color: #D8D8D8;
+      }
+      &:-moz-placeholder { /* Firefox 18- */
+        color: #D8D8D8;
+      }
+      &::-moz-placeholder {  /* Firefox 19+ */
+        color: #D8D8D8;
+      }
+      &:-ms-input-placeholder {
+        color: #D8D8D8;
       }
     }
   }
@@ -150,17 +162,4 @@
     background-color: #4A90E2;
     transition: width 0.5s;
   }
-}
-
-::-webkit-input-placeholder {
-  color: #D8D8D8;
-}
-:-moz-placeholder { /* Firefox 18- */
-  color: #D8D8D8;
-}
-::-moz-placeholder {  /* Firefox 19+ */
-  color: #D8D8D8;
-}
-:-ms-input-placeholder {
-  color: #D8D8D8;
 }
