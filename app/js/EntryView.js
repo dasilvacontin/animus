@@ -41,9 +41,11 @@ var linkRe = /(http\S+)/ig
 
 EntryView.prototype.createNode = function () {
 
-  var text = this.model.title.replace(tagRe, tagTpl)
+  var text = this.model.title
   var href = text.match(linkRe)
-  text = text.replace(linkRe, '')
+
+  // replace link before replacing tags since link can contain '#'
+  text = text.replace(linkRe, '').replace(tagRe, tagTpl)
 
   var html = '<li>' + text
   if (href)
