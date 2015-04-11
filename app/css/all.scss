@@ -1,3 +1,20 @@
+@mixin animus-text-style() {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  line-height: 33px;
+  text-align: left;
+  white-space: nowrap;
+  &::selection {
+    background: #4A90E2; /* WebKit/Blink Browsers */
+    color: white;
+  }
+  &::-moz-selection {
+    background: #4A90E2; /* Gecko Browsers */
+    color: white;
+  }
+
+}
+
 #animus {
   text-align: center;
   background-color: white;
@@ -8,10 +25,9 @@
   left: 0px;
   z-index: 9999;
   transition: opacity 0.5s;
-  font-family: 'Open Sans', sans-serif;
   overflow-y: scroll;
 
-  &.hide {
+  &.animus-hide {
     opacity: 0;
   }
 
@@ -27,10 +43,11 @@
   .animus-view {
     display: inline-block;
     margin: auto;
-    text-align: left;
     transition: transform 0.5s;
 
     input[type="text"] {
+      @include animus-text-style();
+
       /* Override page's defaults, agressive css */
       background: none;
       border: none;
@@ -39,12 +56,12 @@
 
       width: 100%;
       min-width: 300px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 24px;
       color: #D8D8D8;
       margin-top: 100px;
       padding: 7px 8px 10px;
-      border-bottom: 2px solid #D8D8D8;
+      border-bottom-width: 2px;
+      border-bottom-style: solid;
+      border-bottom-color: #D8D8D8;
       outline: none; /* remove that 'sexy' glow */
       margin-bottom: 30px;
       transition: color, border-color;
@@ -71,7 +88,7 @@
   }
 
   li {
-    font-size: 24px;
+    @include animus-text-style();
     color: #4A4A4A;
     opacity: 0;
     transition: opacity 0.5s, transform 0.5s;
@@ -79,8 +96,16 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    line-height: 33px;
-    white-space: nowrap;
+
+    a {
+      @include animus-text-style();
+      color: #4A90E2;
+      &:hover {
+        @include animus-text-style();
+        color: #4A90E2;
+        text-decoration: underline;
+      }
+    }
 
     &.visible {
       opacity: 1;
@@ -134,13 +159,4 @@
 }
 :-ms-input-placeholder {
   color: #D8D8D8;
-}
-
-::selection {
-  background: #4A90E2; /* WebKit/Blink Browsers */
-  color: white;
-}
-::-moz-selection {
-  background: #4A90E2; /* Gecko Browsers */
-  color: white;
 }
