@@ -146,13 +146,13 @@ EntriesController.prototype.onKeydown = function (evt) {
 
       case KEYCODES.J:
         var index = this.getSelectionIndex()
-        index = Math.max(0, index - 1)
+        index = Math.min(this.entryViewList.length - 1, index + 1)
         this.selectEntryViewAtIndex(index)
         break
 
       case KEYCODES.K:
         var index = this.getSelectionIndex()
-        index = Math.min(this.entryViewList.length - 1, index + 1)
+        index = Math.max(0, index - 1)
         this.selectEntryViewAtIndex(index)
         break
 
