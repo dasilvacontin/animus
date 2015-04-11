@@ -27,7 +27,7 @@
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 9999;
+  z-index: 10002; // linked-in uses 10001
   transition: opacity 0.5s;
   overflow-y: scroll;
 
