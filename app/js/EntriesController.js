@@ -49,21 +49,25 @@ function EntriesController () {
     for (var id in items) {
       var item = items[id]
       var model = Model.fromObject(item)
-      if (model) {
+      if (model instanceof Model) {
         self.addEntry(model)
-        self.renderList()
+      } else {
+        chrome.storage.sync.remove(id)
       }
     }
+    self.renderList()
   })
   chrome.storage.onChanged.addListener(function (changes, area) {
     if (area != 'sync') return
     _.forEach(changes, function (change, id) {
       if (!change.newValue) {
         var entry = Entry.items[id]
-        if (entry) entry.destroy()
+        if (entry instanceof Entry) entry.destroy()
+        else chrome.storage.sync.remove(id)
       } else if (!change.oldValue && !Entry.items[id]) {
         var entry = Entry.fromObject(change.newValue)
-        self.addEntry(entry)
+        if (entry instanceof Entry)
+          self.addEntry(entry)
       } else {
         var entry = Entry.items[id]
         entry.update(change.newValue)

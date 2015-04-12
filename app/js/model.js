@@ -40,13 +40,9 @@ Model.prototype.destroy = function () {
  * Save the model in sync storage.
  */
 
-var savedKeys = ['id', 'title', 'createdAt']
 Model.prototype.save = function () {
   // copy important atributes
-  var saveState = {}
-  _.forEach(savedKeys, function (key) {
-    saveState[key] = this[key]
-  }.bind(this))
+  var saveState = _.pick(this, (this.dbProperties || []).concat('id'))
 
   var floppy = {}
   floppy[saveState.id] = saveState

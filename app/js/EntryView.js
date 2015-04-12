@@ -49,7 +49,7 @@ EntryView.prototype.createNode = function () {
 
   var html = '<li>' + text
   if (href)
-    html += ' <a href="' + href + '">Link</a>'
+    html += ' <a href="' + href + '">[Link]</a>'
   html += '</li>'
 
   this.$el = $(html)

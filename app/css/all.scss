@@ -36,10 +36,13 @@
   }
 
   .animus-tag {
+    @include animus-text-style();
+    color: #4A4A4A;
     cursor: pointer;
     transition: color;
     transition-duration: 0.25s;
     &:hover, &.high {
+      @include animus-text-style();
       color: #4A90E2;
     }
   }
@@ -94,7 +97,8 @@
 }
 
 .animus-entry-list {
-  list-style-type: none;
+  list-style: none;
+  margin: 0px;
   padding: 0px;
   overflow: visible; /* some websites override this */
   position: relative;
@@ -115,11 +119,11 @@
 
     a {
       @include animus-text-style();
-      color: #4A90E2;
+      color: #4A4A4A;
       &:hover {
         @include animus-text-style();
         color: #4A90E2;
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
 
