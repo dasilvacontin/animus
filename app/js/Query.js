@@ -11,6 +11,7 @@ var tagRe = /#[a-z\d]+/gi
 
 function Query (text) {
   this.title = text || ''
+  this.title = this.title.toLowerCase()
 
   this.tags = {}
   this.tagCount = 0
@@ -30,5 +31,6 @@ module.exports = exports = Query
 
 Query.prototype.hasTag = function (tag) {
   if (tag[0] === '#') tag = tag.substr(1)
+  tag = tag.toLowerCase()
   return (this.tags[tag] || 0)
 }
