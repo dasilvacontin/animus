@@ -21,9 +21,11 @@ function EntryView (model) {
   }
   this.model = model
   this.tags = {}
-  this.createNode()
   this.visible = true
+  this.alive = true
   this.matchScore = 0
+
+  this.createNode()
 
   var self = this
   this.model.on('destroy', function () {
@@ -143,6 +145,7 @@ EntryView.prototype.deleteEntry = function (hint) {
  * Removes the view from its parent, delete animations, remove listeners, etc.
  */
 EntryView.prototype.destroy = function () {
+  this.alive = false
   this.$el.removeClass('selected visible')
   this.$el.off()
   var self = this

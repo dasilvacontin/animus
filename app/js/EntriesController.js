@@ -149,15 +149,28 @@ EntriesController.prototype.onKeydown = function (evt) {
         break
 
       case KEYCODES.J:
-        var index = this.getSelectionIndex()
-        index = Math.min(this.entryViewList.length - 1, index + 1)
-        this.selectEntryViewAtIndex(index)
+        var current = this.getSelectionIndex()
+        var index = current
+        var listLength = this.entryViewList.length
+        var entryView = undefined
+        while (index + 1 < listLength && (!entryView || !entryView.alive)) {
+          index += 1
+          entryView = this.entryViewList[index]
+        }
+        if (current != index && entryView.alive)
+          this.selectEntryViewAtIndex(index)
         break
 
       case KEYCODES.K:
-        var index = this.getSelectionIndex()
-        index = Math.max(0, index - 1)
-        this.selectEntryViewAtIndex(index)
+        var current = this.getSelectionIndex()
+        var index = current
+        var entryView = undefined
+        while (index - 1 >= 0 && (!entryView || !entryView.alive)) {
+          index -= 1
+          entryView = this.entryViewList[index]
+        }
+        if (current != index && entryView.alive)
+          this.selectEntryViewAtIndex(index)
         break
 
       case KEYCODES.D:
