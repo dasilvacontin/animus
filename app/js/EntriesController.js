@@ -26,16 +26,17 @@ module.exports = exports = EntriesController
 
 function EntriesController () {
   Controller.apply(this, arguments)
+
   this.entryViewList = []
+  this.selectedEntryView = null
+
   this.active = false
 
   this.boundOnKeydown = this.onKeydown.bind(this)
   this.boundOnDeadEntryView = this.onDeadEntryView.bind(this)
 
-  this.selectedEntryView = null
-  this.cachedSelectionIndex = -1
-
   this.renderList() // to center the input
+
   var self = this
   window.addEventListener('resize', function () {
     if (self.active) {
@@ -149,15 +150,11 @@ EntriesController.prototype.onKeydown = function (evt) {
         break
 
       case KEYCODES.J:
-        var index = this.getSelectionIndex()
-        index = Math.min(this.entryViewList.length - 1, index + 1)
-        this.selectEntryViewAtIndex(index)
+        this.selectNextEntry()
         break
 
       case KEYCODES.K:
-        var index = this.getSelectionIndex()
-        index = Math.max(0, index - 1)
-        this.selectEntryViewAtIndex(index)
+        this.selectPrevEntry()
         break
 
       case KEYCODES.D:
@@ -305,6 +302,18 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index) {
   }
   this.selectedEntryView = entryView
   this.cachedSelectionIndex = index
+}
+
+EntriesController.prototype.selectNextEntry = function () {
+  var index = this.getSelectionIndex()
+  index = Math.min(this.entryViewList.length - 1, index + 1)
+  this.selectEntryViewAtIndex(index)
+}
+
+EntriesController.prototype.selectPrevEntry = function () {
+  var index = this.getSelectionIndex()
+  index = Math.max(0, index - 1)
+  this.selectEntryViewAtIndex(index)
 }
 
 /**
