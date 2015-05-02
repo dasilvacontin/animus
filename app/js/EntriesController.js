@@ -151,13 +151,13 @@ EntriesController.prototype.onKeydown = function (evt) {
       case KEYCODES.J:
         var index = this.getSelectionIndex()
         index = Math.min(this.entryViewList.length - 1, index + 1)
-        this.selectEntryViewAtIndex(index)
+        this.selectEntryViewAtIndex(index, true)
         break
 
       case KEYCODES.K:
         var index = this.getSelectionIndex()
         index = Math.max(0, index - 1)
-        this.selectEntryViewAtIndex(index)
+        this.selectEntryViewAtIndex(index, true)
         break
 
       case KEYCODES.D:
@@ -226,7 +226,8 @@ EntriesController.prototype.renderList = function (startIndex) {
   startIndex = Math.max(startIndex || 0, 0)
   for (var i = startIndex; i < this.entryViewList.length; ++i) {
     var entryView = this.entryViewList[i]
-    entryView.$el.css('transform', 'translateY(' + i*63 + 'px)')
+    entryView.offsetY = i * 63
+    entryView.$el.css('transform', 'translateY(' + entryView.offsetY + 'px)')
   }
 
   var maxWidth = 0
@@ -242,9 +243,9 @@ EntriesController.prototype.renderList = function (startIndex) {
   var inputHeight = 52
   if (listHeight) listHeight += 30
   var animusHeight = 100 + inputHeight + listHeight + 100
-  var animusY = (window.innerHeight - animusHeight) / 2
-  animusY = Math.max(animusY, 0)
-  this.$el.css('transform', 'translateY(' + animusY + 'px)')
+  this.offsetY = (window.innerHeight - animusHeight) / 2
+  this.offsetY = Math.max(this.offsetY, 0)
+  this.$el.css('transform', 'translateY(' + this.offsetY + 'px)')
 }
 
 /**
@@ -292,7 +293,7 @@ EntriesController.prototype.getSelectionIndex = function () {
  *
  * @param {Number} index
  */
-EntriesController.prototype.selectEntryViewAtIndex = function (index) {
+EntriesController.prototype.selectEntryViewAtIndex = function (index, shortcut) {
   if (this.selectedEntryView) {
     this.selectedEntryView.setSelected(false)
   }
@@ -302,6 +303,20 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index) {
     entryView.setSelected(true)
   } else {
     index = -1
+  }
+  if (entryView && shortcut) {
+    var entryViewTop = this.offsetY + 182 + entryView.offsetY
+    var entryViewBottom = entryViewTop + 63
+    var animus = $('#animus')[0]
+    var windowTop = animus.scrollTop
+    var windowHeight = window.innerHeight
+    var windowBottom = windowTop + windowHeight
+    var margin = 182
+    if (windowTop + margin > entryViewTop) {
+      animus.scrollTop = entryViewTop - margin
+    } else if (windowBottom - margin < entryViewBottom) {
+      animus.scrollTop = entryViewBottom + margin - windowHeight
+    }
   }
   this.selectedEntryView = entryView
   this.cachedSelectionIndex = index
