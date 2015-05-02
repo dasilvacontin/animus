@@ -7,6 +7,7 @@ var Query = require('./Query')
 var Entry = require('./Entry')
 
 var $ = zepto.$
+require('./zepto.scroll')($)
 
 var KEYCODES = {
   ENTER: 13,
@@ -312,15 +313,16 @@ EntriesController.prototype.selectEntryViewAtIndex = function (index, shortcut) 
   if (entryView && shortcut) {
     var entryViewTop = this.offsetY + 182 + entryView.offsetY
     var entryViewBottom = entryViewTop + 63
-    var animus = $('#animus')[0]
+    var $animus = $('#animus')
+    var animus = $animus[0]
     var windowTop = animus.scrollTop
     var windowHeight = window.innerHeight
     var windowBottom = windowTop + windowHeight
     var margin = 182
     if (windowTop + margin > entryViewTop) {
-      animus.scrollTop = entryViewTop - margin
+      $animus.scrollTo({endY: entryViewTop - margin})
     } else if (windowBottom - margin < entryViewBottom) {
-      animus.scrollTop = entryViewBottom + margin - windowHeight
+      $animus.scrollTo({endY: entryViewBottom + margin - windowHeight})
     }
   }
   this.selectedEntryView = entryView
