@@ -160,6 +160,13 @@ EntriesController.prototype.onKeydown = function (evt) {
         this.selectEntryViewAtIndex(index, true)
         break
 
+      case KEYCODES.E:
+        var title = this.selectedEntryView.model.title
+        this.deleteSelectedEntry()
+        this.focusInput()
+        this.input.val(title)
+        evt.preventDefault()
+
       case KEYCODES.D:
         this.deleteSelectedEntry()
         // since we might end up focusing the input when no entries are left
