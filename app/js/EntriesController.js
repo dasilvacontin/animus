@@ -230,6 +230,8 @@ EntriesController.prototype.renderList = function (startIndex) {
     entryView.$el.css('transform', 'translateY(' + entryView.offsetY + 'px)')
   }
 
+  // We find out the list element with the largest width so that
+  // we can make the input's width match it
   var maxWidth = 0
   for (var i = startIndex; i < this.entryViewList.length; ++i) {
     var entryView = this.entryViewList[i]
@@ -238,6 +240,7 @@ EntriesController.prototype.renderList = function (startIndex) {
   }
   this.$('.animus-new-entry-input').css('width', maxWidth)
 
+  // We fake the list's height since all the list elements have top,left: 0px
   var listHeight = this.entryViewList.length * 63
   this.$('.animus-entry-list').css('height', listHeight + 'px')
   var inputHeight = 52
