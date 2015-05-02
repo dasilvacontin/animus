@@ -267,7 +267,9 @@ EntriesController.prototype.hoveredEntryView = function (entryView) {
      * to the input. not desired.
      */
     this.focusTimeout = setTimeout(function () {
-      this.input.focus()
+      if ($('#animus')[0].scrollTop === 0) {
+        this.input.focus()
+      }
     }.bind(this), 1)
   }
 }
