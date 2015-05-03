@@ -3,6 +3,7 @@ var util = require('util')
 var _ = require('lodash')
 var zepto = require('zepto-browserify')
 var keycode = require('keycode')
+var eventUtils = require('./event-utils')
 var Controller = require('./controller')
 var Query = require('./Query')
 var Entry = require('./Entry')
@@ -29,6 +30,14 @@ function EntriesController () {
       // recenter the view
       self.renderList()
     }
+  })
+  document.addEventListener('mousewheel', function (evt) {
+    // We want the selection to change when manually scrolling. By resetting
+    // the last MouseEvent we make sure the next one is not ignored.
+    eventUtils.setLastMouseEventAfterEventQueue(undefined)
+  })
+  document.addEventListener('mousemove', function (evt) {
+    eventUtils.setLastMouseEventAfterEventQueue(evt)
   })
   chrome.storage.sync.get(null, function (items) {
     var Model = self.model

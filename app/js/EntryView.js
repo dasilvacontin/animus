@@ -1,5 +1,6 @@
 'use strict'
 var events = require('events')
+var eventUtils = require('./event-utils')
 var util = require('util')
 var zepto = require('zepto-browserify')
 var Entry = require('./Entry')
@@ -57,9 +58,11 @@ EntryView.prototype.createNode = function () {
 
   var self = this
   this.$el.on('mouseover', function (evt) {
+    if (!eventUtils.didMove(evt)) return
     self.emit('hover', self)
   })
   this.$el.on('mouseout', function (evt) {
+    if (!eventUtils.didMove(evt)) return
     self.emit('hover', null)
   })
   var animusTags = this.$('.animus-tag')
