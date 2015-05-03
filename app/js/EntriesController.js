@@ -2,25 +2,12 @@
 var util = require('util')
 var _ = require('lodash')
 var zepto = require('zepto-browserify')
+var keycode = require('keycode')
 var Controller = require('./controller')
 var Query = require('./Query')
 var Entry = require('./Entry')
 
 var $ = zepto.$
-
-var KEYCODES = {
-  ENTER: 13,
-  TAB: 9,
-  ESC: 27,
-
-  A: 65,
-  E: 69,
-  D: 68,
-  U: 85,
-
-  J: 74,
-  K: 75
-}
 
 module.exports = exports = EntriesController
 
@@ -110,7 +97,7 @@ EntriesController.prototype.detachKeyListener = function () {
 EntriesController.prototype.onKeydown = function (evt) {
   evt.stopPropagation()
 
-  if (evt.keyCode === KEYCODES.ESC) {
+  if (evt.keyCode === keycode('esc')) {
     this.emit('toggle')
     return
   }
@@ -118,12 +105,12 @@ EntriesController.prototype.onKeydown = function (evt) {
   if (this.inputIsFocused()) {
     switch (evt.keyCode) {
 
-      case KEYCODES.TAB:
+      case keycode('tab'):
         this.focusFirstEntry()
         evt.preventDefault()
         break
 
-      case KEYCODES.ENTER:
+      case keycode('enter'):
         evt.preventDefault()
         // TODO: Refactor this into a function
         var val = this.input.val()
@@ -142,32 +129,32 @@ EntriesController.prototype.onKeydown = function (evt) {
   } else {
     switch (evt.keyCode) {
 
-      case KEYCODES.A:
-      case KEYCODES.TAB:
+      case keycode('a'):
+      case keycode('tab'):
         this.focusInput()
         evt.preventDefault()
         break
 
-      case KEYCODES.J:
+      case keycode('j'):
         var index = this.getSelectionIndex()
         index = Math.min(this.entryViewList.length - 1, index + 1)
         this.selectEntryViewAtIndex(index, true)
         break
 
-      case KEYCODES.K:
+      case keycode('k'):
         var index = this.getSelectionIndex()
         index = Math.max(0, index - 1)
         this.selectEntryViewAtIndex(index, true)
         break
 
-      case KEYCODES.E:
+      case keycode('e'):
         var title = this.selectedEntryView.model.title
         this.deleteSelectedEntry()
         this.focusInput()
         this.input.val(title)
         evt.preventDefault()
 
-      case KEYCODES.D:
+      case keycode('d'):
         this.deleteSelectedEntry()
         // since we might end up focusing the input when no entries are left
         evt.preventDefault()
