@@ -28,3 +28,11 @@ Entry.fromObject = function (obj) {
 
 /* Properties that will be saved to the database */
 Entry.prototype.dbProperties = ['id', 'title', 'createdAt']
+
+var linkRe = /(http\S+)/ig
+
+Entry.prototype.getLink = function () {
+  var matches = this.title.match(linkRe)
+  if (matches)
+    return matches[0]
+}

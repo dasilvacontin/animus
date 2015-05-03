@@ -38,15 +38,14 @@ util.inherits(EntryView, events.EventEmitter)
  */
 var tagRe = /(#[a-z\d]+)/ig
 var tagTpl = '<span class="animus-tag">$&</span>'
-var linkRe = /(http\S+)/ig
 
 EntryView.prototype.createNode = function () {
 
   var text = this.model.title
-  var href = text.match(linkRe)
+  var href = this.model.getLink()
 
   // replace link before replacing tags since link can contain '#'
-  text = text.replace(linkRe, '').replace(tagRe, tagTpl)
+  text = text.replace(href, '').replace(tagRe, tagTpl)
 
   var html = '<li>' + text
   if (href)

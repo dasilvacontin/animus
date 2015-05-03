@@ -144,18 +144,6 @@ EntriesController.prototype.onKeydown = function (evt) {
         evt.preventDefault()
         break
 
-      case keycode('j'):
-        var index = this.getSelectionIndex()
-        index = Math.min(this.entryViewList.length - 1, index + 1)
-        this.selectEntryViewAtIndex(index, true)
-        break
-
-      case keycode('k'):
-        var index = this.getSelectionIndex()
-        index = Math.max(0, index - 1)
-        this.selectEntryViewAtIndex(index, true)
-        break
-
       case keycode('e'):
         var title = this.selectedEntryView.model.title
         this.deleteSelectedEntry()
@@ -168,6 +156,27 @@ EntriesController.prototype.onKeydown = function (evt) {
         // since we might end up focusing the input when no entries are left
         evt.preventDefault()
         break
+
+      case keycode('f'):
+        if (this.selectedEntryView) {
+          var link = this.selectedEntryView.model.getLink()
+          if (link)
+            window.open(link, '_blank')
+        }
+        break
+
+      case keycode('j'):
+        var index = this.getSelectionIndex()
+        index = Math.min(this.entryViewList.length - 1, index + 1)
+        this.selectEntryViewAtIndex(index, true)
+        break
+
+      case keycode('k'):
+        var index = this.getSelectionIndex()
+        index = Math.max(0, index - 1)
+        this.selectEntryViewAtIndex(index, true)
+        break
+
     }
   }
 }
