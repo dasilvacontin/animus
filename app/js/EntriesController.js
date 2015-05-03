@@ -280,7 +280,7 @@ EntriesController.prototype.hoveredEntryView = function (entryView) {
      */
     this.focusTimeout = setTimeout(function () {
       if ($('#animus')[0].scrollTop === 0) {
-        this.input.focus()
+        this.focusInput()
       }
     }.bind(this), 1)
   }
@@ -379,7 +379,10 @@ EntriesController.prototype.onDeadEntryView = function (entryView, hint) {
     this.selectedEntryView = null
     while (index >= this.entryViewList.length) --index
     this.selectEntryViewAtIndex(index)
-    if (!this.selectedEntryView) this.input.focus()
+    if (!this.selectedEntryView) {
+      // no entries left
+      this.focusInput()
+    }
   }
 }
 
@@ -388,6 +391,7 @@ EntriesController.prototype.inputIsFocused = function () {
 }
 
 EntriesController.prototype.focusInput = function () {
+  $('#animus')[0].scrollTop = 0
   this.input.focus()
 }
 
