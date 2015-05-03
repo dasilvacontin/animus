@@ -3,6 +3,7 @@ var util = require('util')
 var _ = require('lodash')
 var zepto = require('zepto-browserify')
 var keycode = require('keycode')
+var deepEqual = require('deep-equal')
 var eventUtils = require('./event-utils')
 var Controller = require('./controller')
 var Query = require('./Query')
@@ -23,6 +24,8 @@ function EntriesController () {
   this.selectedEntryView = null
   this.cachedSelectionIndex = -1
 
+  this.undoStack = []
+
   this.renderList() // to center the input
   var self = this
   window.addEventListener('resize', function () {
@@ -40,33 +43,48 @@ function EntriesController () {
     eventUtils.setLastMouseEventAfterEventQueue(evt)
   })
   chrome.storage.sync.get(null, function (items) {
+    var backup = ''
     var Model = self.model
     Model.items = items
     for (var id in items) {
       var item = items[id]
       var model = Model.fromObject(item)
       if (model instanceof Model) {
+        backup += model.title + '\n'
         self.addEntry(model)
       } else {
         chrome.storage.sync.remove(id)
       }
     }
     self.renderList()
+    console.log('animus backup:')
+    console.log('(you probably want to save this if your entries are missing)')
+    console.log(backup)
   })
   chrome.storage.onChanged.addListener(function (changes, area) {
+    // TODO: refactor
     if (area != 'sync') return
     _.forEach(changes, function (change, id) {
-      if (!change.newValue) {
-        var entry = Entry.items[id]
-        if (entry instanceof Entry) entry.destroy()
-        else chrome.storage.sync.remove(id)
-      } else if (!change.oldValue && !Entry.items[id]) {
-        var entry = Entry.fromObject(change.newValue)
-        if (entry instanceof Entry)
-          self.addEntry(entry)
+      // failure to perform a change probably means that this instance was the
+      // one that performed the sync / modified data
+      var sucess = self.performChange(change, id)
+
+      if (sucess && deepEqual(change, self.getNextUndo(), {strict: true})) {
+        /**
+         * another animus instance used undo, so we pop our undo stack
+         *
+         * edge-case: the other animus instance was older, and had some changes
+         * in its undo stack, and it's popping changes this instance doesn't have
+         */
+        console.log('an animus instance used undo')
+        self.undoStack.pop()
       } else {
-        var entry = Entry.items[id]
-        entry.update(change.newValue)
+        // add change to undostack, leave it ready for performChange
+        console.log('added change to undo')
+        var undoChange = {}
+        if (change.newValue) undoChange.oldValue = change.newValue
+        if (change.oldValue) undoChange.newValue = change.oldValue
+        self.undoStack.push(undoChange)
       }
     })
     self.renderList()
@@ -150,6 +168,13 @@ EntriesController.prototype.onKeydown = function (evt) {
         this.focusInput()
         this.input.val(title)
         evt.preventDefault()
+        break
+
+      case keycode('u'):
+        this.undo()
+        // since we might end up focusing the input when no entries are left
+        evt.preventDefault()
+        break
 
       case keycode('d'):
         this.deleteSelectedEntry()
@@ -384,6 +409,46 @@ EntriesController.prototype.onDeadEntryView = function (entryView, hint) {
       this.focusInput()
     }
   }
+}
+
+/**
+ * Undo the last action.
+ */
+EntriesController.prototype.undo = function () {
+  this.performChange(this.undoStack.pop())
+}
+EntriesController.prototype.getNextUndo = function () {
+  return this.undoStack[this.undoStack.length - 1]
+}
+
+/**
+ * Performs a change on the data, given by an oldValue and a newValue.
+ *
+ * @param {Object} change
+ * @return {Boolean} success
+ */
+
+EntriesController.prototype.performChange = function (change) {
+  var id = (change.newValue || change.oldValue).id
+  if (!change.newValue) {
+    // deleted entry
+    var entry = Entry.items[id]
+    if (!entry) return false
+    if (entry instanceof Entry) entry.destroy()
+    else Entry.items = undefined
+  } else if (!change.oldValue) {
+    // added entry
+    if (Entry.items[id]) return false
+    var entry = Entry.fromObject(change.newValue)
+    if (!(entry instanceof Entry)) return false
+    this.addEntry(entry)
+  } else {
+    // updated entry
+    // lol, we don't perform updates right now, we delete / re-create entries
+    var entry = Entry.items[id]
+    entry.update(change.newValue)
+  }
+  return true
 }
 
 EntriesController.prototype.inputIsFocused = function () {
