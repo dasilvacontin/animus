@@ -12,6 +12,8 @@
 [standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat
 [standard-url]: https://github.com/feross/standard
 
+Don't forget about your ideas again. Store it on animus and find it later via filtering by text and hashtags.
+
 ## Features
 
 - Fully usable via **key shortcuts**
