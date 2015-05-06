@@ -30,6 +30,7 @@ You'll wish you could use animus everywhere.
 - Translucent background
 - Progress bars for entries
 - Reminders via natural language processing
+- Tests, specially those related to editing the database
 
 ## License
 
