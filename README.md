@@ -17,10 +17,25 @@ You'll wish you could use animus everywhere.
 ## Features
 
 - **Hashtags and URLs** are parsed from the entries' text
-- Fully usable via **key shortcuts**
+- Fully usable via **keyboard shortcuts**
 - **Filter** entries by text and hashtags
 - **Storage sync** with your Google Account
 - **Quickly opens** using a single command
+
+## Keyboard Shortcuts
+
+- `Ctrl+Shift+A` - Default command for toggling animus (open/close)
+- `j` - Select next entry
+- `k` - Select previous entry
+- `tab` - Switch focus between the input field and the list
+- `a`, add - Switch focus to input field
+- `enter` - Insert input field's text as a new entry
+- `e`, edit - Edits the selected entry
+- `d`, delete/done - Deletes the selected entry
+- `f`, follow link - Opens the selected entry's link in a new tab
+- `esc` - Close animus
+
+You can change/set a custom command for toggling animus in the **Keyboard shortcuts** configuration modal at the bottom of the [Chrome Extensions](chrome://extensions/) page.
 
 ## Roadmap
 
