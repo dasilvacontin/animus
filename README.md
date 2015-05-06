@@ -11,6 +11,7 @@
 [standard-url]: https://github.com/feross/standard
 
 Chrome Extension for instantly storing and filtering your ideas, todos, links, check-laters.
+
 You'll wish you could use animus everywhere.
 
 ## Features
