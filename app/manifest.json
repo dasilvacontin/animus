@@ -3,6 +3,10 @@
   "description": "The element of a person that enables them to be aware of the world and their experiences, to think, and to feel.",
   "version": "0.1.0",
   "manifest_version": 2,
+  "icons": {
+    "48": "img/logo48.png",
+    "128": "img/logo128.png"
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
