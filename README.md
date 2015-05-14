@@ -1,4 +1,4 @@
-![Screenshot](https://pbs.twimg.com/media/CBXNkIJWsAEvgt8.png)
+<div style="text-align:center"><img src="https://github.com/dasilvacontin/animus/raw/master/screenshots/demo.png" width="1191"></div>
 
 # animus
 
