@@ -12,7 +12,9 @@
 
 Chrome Extension for instantly storing and filtering your ideas, todos, links, check-laters.
 
-[Install](https://chrome.google.com/webstore/detail/animus/hhlengghgfcjkfkfaocfnimlhnkjddch) the Chrome Extension, and help us make it better!
+[Install](https://chrome.google.com/webstore/detail/animus/hhlengghgfcjkfkfaocfnimlhnkjddch) the Chrome Extension, and help us make it better! After installing the extension, you should be able to open *animus* over 'any' website using the toggle command (Ctrl+Shift+A by default).
+
+*Content scripts can't modify some websites/paths, like the Chrome Web Store, any `chrome://...` window, your homepage, the new tab window, ... so you won't be able to open animus there, for now.*
 
 ## Features
 
