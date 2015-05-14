@@ -51,4 +51,4 @@ You can change/set a custom command for toggling animus in the **Keyboard shortc
 
 MIT. Copyright (c) [David da Silva Contin](http://dasilvacont.in).
 
-> the element of a person that enables them to be aware of the world and their experiences, to think, and to feel.
+<img src="https://github.com/dasilvacontin/animus/raw/master/app/img/logo384.png" width="192">
