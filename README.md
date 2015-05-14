@@ -12,7 +12,7 @@
 
 Chrome Extension for instantly storing and filtering your ideas, todos, links, check-laters.
 
-You'll wish you could use animus everywhere.
+[Install](https://chrome.google.com/webstore/detail/animus/hhlengghgfcjkfkfaocfnimlhnkjddch) the Chrome Extension, and help us make it better!
 
 ## Features
 
