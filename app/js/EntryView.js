@@ -46,6 +46,8 @@ EntryView.prototype.createNode = function () {
 
   // replace link before replacing tags since link can contain '#'
   text = text.replace(href, '').replace(tagRe, tagTpl)
+  if (!text)
+    text = this.model.title
 
   var html = '<li>' + text
   if (href)
