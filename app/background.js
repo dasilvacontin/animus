@@ -9,8 +9,17 @@ chrome.commands.onCommand.addListener(function (command) {
   }, function (tabArray) {
     var activeTab = tabArray[0]
     if (!activeTab) throw new Error('no active tab (?)')
-    chrome.tabs.executeScript(activeTab.id, {
-      file: 'toggler.js'
-    })
+    toggleTab(activeTab)
   })
 })
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+  console.log(tab)
+  toggleTab(tab)
+})
+
+function toggleTab (tab) {
+  chrome.tabs.executeScript(tab.id, {
+    file: 'toggler.js'
+  })
+}

@@ -7,6 +7,12 @@
     "48": "img/logo48.png",
     "128": "img/logo128.png"
   },
+  "browser_action": {
+    "default_icon": {
+      "19": "img/logo38.png",
+      "38": "img/logo38.png"
+    }
+  },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
