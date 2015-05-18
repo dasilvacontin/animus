@@ -1,9 +1,11 @@
 'use strict'
+var _ = require('lodash')
 var events = require('events')
 var eventUtils = require('./event-utils')
 var util = require('util')
 var zepto = require('zepto-browserify')
 var Entry = require('./Entry')
+var ghURLParser = require('./ghURLParser')
 
 var $ = zepto.$
 
@@ -50,14 +52,44 @@ EntryView.prototype.createNode = function () {
     text = this.model.title
 
   var html = '<li>' + text
+
+  // Link Parsing
   if (href)
     html += ' <a href="' + href + '" target="_blank">[Link]</a>'
+
+  // GitHub integration
+  var self = this
+  if (href) {
+    var ghURL = ghURLParser(href)
+    if (ghURL) console.log(ghURL)
+    if (ghURL && ['issue', 'pull'].indexOf(ghURL.type) > -1) {
+      var req = new XMLHttpRequest()
+      req.onload = function (e) {
+        if (req.response) {
+            var data = JSON.parse(req.response)
+            var status = data.state
+            if (status === 'closed' && data.merged)
+              status = 'merged'
+            status = _.capitalize(status)
+
+            var li = self.$el
+            console.log(li)
+            console.log(li.html())
+            var html = li.html()
+            html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">' + status
+            html += '</span>'
+            li.html(html)
+        }
+      }
+      req.open('GET', 'https://api.github.com/repos/'+ghURL.owner+'/'+ghURL.repo+'/'+ghURL.type+'s/'+ghURL.number)
+      req.send()
+    }
+  }
   html += '</li>'
 
   this.$el = $(html)
   this.$ = this.$el.find.bind(this.$el)
 
-  var self = this
   this.$el.on('mouseover', function (evt) {
     if (!eventUtils.didMove(evt)) return
     self.emit('hover', self)
