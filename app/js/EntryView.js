@@ -55,7 +55,7 @@ EntryView.prototype.createNode = function () {
 
   // Link Parsing
   if (href)
-    html += ' <a href="' + href + '" target="_blank">[Link]</a>'
+    html += ' <a href="' + href + '" target="_blank"><span class="octicon octicon-link"></span></a>'
 
   // GitHub integration
   var self = this
@@ -76,7 +76,15 @@ EntryView.prototype.createNode = function () {
             console.log(li)
             console.log(li.html())
             var html = li.html()
-            html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">' + status
+            html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">'
+            if (ghURL.type === 'issue'){
+                if (status === 'closed')
+                  html += '<span class="octicon octicon-issue-closed"></span> '
+                else
+                  html += '<span class="octicon octicon-issue-opened"></span> '
+            } else if (ghURL.type === 'pull')
+              html += '<span class="octicon octicon-git-pull-request"></span> '
+            html += status
             html += '</span>'
             li.html(html)
         }

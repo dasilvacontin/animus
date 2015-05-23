@@ -38,5 +38,8 @@
     "http://*/*",
     "https://*/*"
   ],
-  "web_accessible_resources": ["bundle.js.map"]
+  "web_accessible_resources": [
+    "bundle.js.map",
+    "fonts/*"
+  ]
 }

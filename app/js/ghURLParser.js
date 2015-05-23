@@ -10,6 +10,11 @@ module.exports = function (url) {
   var repo = match[3]
   var type = match[5]
   var number = match[7]
+
+  // type: 'issues' -> 'issue'
+  if (type === 'issues')
+    type = 'issue'
+
   if (number !== undefined)
     number = number.split('#')[0]
 
