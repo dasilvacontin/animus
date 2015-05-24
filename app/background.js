@@ -2,7 +2,7 @@
 console.log('voila!')
 
 // register scripts for the commands
-actions = {
+var actions = {
   'toggle-animus': 'toggler.js',
   'save-website': 'saveWebsite.js'
 }
