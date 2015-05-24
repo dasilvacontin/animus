@@ -146,6 +146,7 @@ EntriesController.prototype.onKeydown = function (evt) {
         var entry = new Model({
           title: val
         })
+        entry.save()
         this.addEntry(entry)
         this.input.val('')
         // TODO: Why doesn't this fire automatticaly? trigger?

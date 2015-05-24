@@ -21,7 +21,6 @@ function Model (props) {
   if (!this.constructor.items) this.constructor.items = {}
   this.constructor.items[this.id] = this
   this.emit('add', this)
-  this.save()
 }
 _.mixin(Model, events.EventEmitter.prototype)
 Model.prototype = observe({})
