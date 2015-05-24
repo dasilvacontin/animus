@@ -1,7 +1,7 @@
 {
   "name": "Animus",
   "description": "Chrome Extension for instantly storing and filtering your ideas, todos, links, check-laters.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "manifest_version": 2,
   "icons": {
     "48": "img/logo48.png",
@@ -24,6 +24,12 @@
         "mac": "MacCtrl+Shift+A"
       },
       "description": "Toggle Animus"
+    },
+    "save-website": {
+      "suggested_key": {
+        "default": "Alt+Shift+A"
+      },
+      "description": "Save current website as entry"
     }
   },
   "content_scripts": [{

@@ -1,6 +1,18 @@
 /* global chrome */
 console.log('voila!')
 
+// register scripts for the commands
+actions = {
+  'toggle-animus': 'toggler.js',
+  'save-website': 'saveWebsite.js'
+}
+
+function performCommand (tab, command) {
+  chrome.tabs.executeScript(tab.id, {
+    file: actions[command]
+  })
+}
+
 chrome.commands.onCommand.addListener(function (command) {
   console.log('command:', command)
   chrome.tabs.query({
@@ -9,17 +21,10 @@ chrome.commands.onCommand.addListener(function (command) {
   }, function (tabArray) {
     var activeTab = tabArray[0]
     if (!activeTab) throw new Error('no active tab (?)')
-    toggleTab(activeTab)
+    performCommand(activeTab, command)
   })
 })
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-  console.log(tab)
-  toggleTab(tab)
+  performCommand(tab, 'toggle-animus')
 })
-
-function toggleTab (tab) {
-  chrome.tabs.executeScript(tab.id, {
-    file: 'toggler.js'
-  })
-}

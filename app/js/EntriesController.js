@@ -252,7 +252,7 @@ EntriesController.prototype.addTagToQuery = function (tag) {
  * @param {Event} evt
  */
 EntriesController.prototype.onInputChange = function (evt) {
-  var input = evt.srcElement
+  var input = this.input[0]
   var query = new Query(input.value)
   for (var i = 0; i < this.entryViewList.length; ++i) {
     var entryView = this.entryViewList[i]

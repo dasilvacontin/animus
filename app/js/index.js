@@ -13,10 +13,6 @@ console.log('animus operative')
 var animusTemplate = "<div id='animus' class='animus-hide'><div class='animus-view'><input class='animus-new-entry-input' type='text' placeholder='animus'></input><ul class='animus-entry-list'></ul></div></div>"
 var animus = $(animusTemplate)
 
-/**
- * Expose toggle function that will be called by the background process.
- */
-var leWindow = window
 window.toggleAnimus = function () {
   if (!controller) {
     controller = new EntriesController({
@@ -31,6 +27,15 @@ window.toggleAnimus = function () {
   showAnimus(!controller.active)
   controller.setActive(!controller.active)
 }
+window.AnimusSaveWebsite = function () {
+  if (!controller || !controller.active)
+    window.toggleAnimus()
+  controller.input.val(window.document.title + ' ' + window.location.href)
+  controller.onInputChange()
+  controller.input.focus()
+  controller.input.scrollLeft(Infinity)
+}
+
 
 var blurredNodes = []
 function blurPage (flag) {
