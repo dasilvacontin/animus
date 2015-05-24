@@ -122,6 +122,12 @@ EntriesController.prototype.detachKeyListener = function () {
 }
 
 EntriesController.prototype.onKeydown = function (evt) {
+  // Prevent animus from blocking command usage, e.g. Cmd+Shift+F for fullscreen
+  if (evt.altKey || evt.ctrlKey || evt.metaKey || evt.shiftKey)
+    return
+
+  // Prevent websites to do stuff while we interact with animus
+  // e.g. Wired automatically starts searching when a key is pressed
   evt.stopPropagation()
 
   if (evt.keyCode === keycode('esc')) {
