@@ -123,7 +123,7 @@ EntriesController.prototype.detachKeyListener = function () {
 
 EntriesController.prototype.onKeydown = function (evt) {
   // Prevent animus from blocking command usage, e.g. Cmd+Shift+F for fullscreen
-  if (evt.altKey || evt.ctrlKey || evt.metaKey || evt.shiftKey)
+  if (evt.altKey || evt.ctrlKey || evt.metaKey)
     return
 
   // Prevent websites to do stuff while we interact with animus
@@ -157,6 +157,10 @@ EntriesController.prototype.onKeydown = function (evt) {
         this.input.val('')
         // TODO: Why doesn't this fire automatticaly? trigger?
         this.onInputChange({srcElement: this.input[0]})
+
+        // save entry and close animus if shift+enter
+        if (evt.shiftKey)
+          this.emit('toggle')
         break
 
     }
