@@ -61,7 +61,6 @@ EntryView.prototype.createNode = function () {
   var self = this
   if (href) {
     var ghURL = ghURLParser(href)
-    if (ghURL) console.log(ghURL)
     if (ghURL && ['issue', 'pull'].indexOf(ghURL.type) > -1) {
       var req = new XMLHttpRequest()
       req.onload = function (e) {
@@ -73,8 +72,6 @@ EntryView.prototype.createNode = function () {
             status = _.capitalize(status)
 
             var li = self.$el
-            console.log(li)
-            console.log(li.html())
             var html = li.html()
             html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">'
             if (ghURL.type === 'issue'){
