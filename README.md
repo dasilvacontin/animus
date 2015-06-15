@@ -16,6 +16,7 @@ Chrome Extension for instantly storing and filtering your ideas, todos, links, c
 
 *Content scripts can't modify some websites/paths, like the Chrome Web Store, any `chrome://...` window, your homepage, the new tab window, ... so you won't be able to open animus there, for now.*
 
+
 ## Features
 
 - **Hashtags and URLs** are parsed from the entries' text
@@ -44,7 +45,6 @@ You can change/set a custom command for toggling animus in the **Keyboard shortc
 ## Roadmap
 
 - Make it fully usable without the need of key shortcuts
-- Command for saving current website title and url as an entry
 - GitHub integrations, eg repo/issue/PR status in entries with a GH link
 - Translucent background
 - Progress bars for entries
