@@ -16,6 +16,7 @@ Chrome Extension for instantly storing and filtering your ideas, todos, links, c
 
 *Content scripts can't modify some websites/paths, like the Chrome Web Store, any `chrome://...` window, your homepage, the new tab window, ... so you won't be able to open animus there, for now.*
 
+*Also, you can't use animus on tabs that were open before installing the extension... Known bug.*
 
 ## Features
 
