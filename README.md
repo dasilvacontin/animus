@@ -45,12 +45,12 @@ You can change/set a custom command for toggling animus in the **Keyboard shortc
 
 ## Roadmap
 
-- Make it fully usable without the need of key shortcuts
-- GitHub integrations, eg repo/issue/PR status in entries with a GH link
-- Translucent background
-- Progress bars for entries
 - Reminders via natural language processing
+- GitHub integrations, eg repo/issue/PR status in entries with a GH link
+- Progress bars for entries
+- Translucent background
 - Tests, specially those related to editing the database
+- Make it fully usable without the need of key shortcuts
 
 ## License
 
