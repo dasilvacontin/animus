@@ -72,7 +72,8 @@ EntryView.prototype.createNode = function () {
             status = _.capitalize(status)
 
             var li = self.$el
-            var html = li.html()
+            var a = self.$el.find('a')
+            var html = ""
             html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">'
             if (ghURL.type === 'issue'){
                 if (status === 'closed')
@@ -83,7 +84,7 @@ EntryView.prototype.createNode = function () {
               html += '<span class="octicon octicon-git-pull-request"></span> '
             html += status
             html += '</span>'
-            li.html(html)
+            a.append(html)
         }
       }
       req.open('GET', 'https://api.github.com/repos/'+ghURL.owner+'/'+ghURL.repo+'/'+ghURL.type+'s/'+ghURL.number)
