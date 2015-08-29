@@ -59,15 +59,15 @@ $ npm install
 $ gulp watch
 ```
 
-We use `gulp` do generate a build of the extension. Running `gulp` will generate
-a build of the extension at `dist/`. Running `gulp watch` (recommended) will
-watch for changes in the source code and rebuild the project automatically for you.
+Running `gulp` will generate a build of the extension at `dist/`. Running
+`gulp watch` (recommended) will watch for changes in the source code and
+automatically rebuild the project for you.
 
-Here's who you install the dev build of the extension:
+Here's how you install the dev build of the extension:
 
 * navigate to `chrome://extensions`
 * activate the `Developer Mode` using the checkbox at the top-right
-* clicking the `Load unpacked extension...` button and select the `dist/` folder.
+* click the `Load unpacked extension...` button and select the `dist/` folder
 
 **NB** you must manually reload the unpacked extension at `chrome://extensions`
 _every time_ you make changes to it. This is very cumbersome, so I'd recommend
