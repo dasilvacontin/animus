@@ -52,6 +52,27 @@ You can change/set a custom command for toggling animus in the **Keyboard shortc
 - Tests, specially those related to editing the database
 - Make it fully usable without the need of key shortcuts
 
+## Dev
+
+```bash
+$ npm install
+$ gulp watch
+```
+
+We use `gulp` do generate a build of the extension. Running `gulp` will generate
+a build of the extension at `dist/`. Running `gulp watch` (recommended) will
+watch for changes in the source code and rebuild the project automatically for you.
+
+Here's who you install the dev build of the extension:
+
+* navigate to `chrome://extensions`
+* activate the `Developer Mode` using the checkbox at the top-right
+* clicking the `Load unpacked extension...` button and select the `dist/` folder.
+
+**NB** you must manually reload the unpacked extension at `chrome://extensions`
+_every time_ you make changes to it. This is very cumbersome, so I'd recommend
+using this [Extension Reloader](https://chrome.google.com/webstore/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid).
+
 ## License
 
 MIT. Copyright (c) [David da Silva Contin](http://dasilvacont.in).

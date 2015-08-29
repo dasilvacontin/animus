@@ -5,6 +5,8 @@ var loadDirectory = require('gulp-load-directory')
 
 loadDirectory(path.join(__dirname, 'tasks'))
 
-gulp.task('default', ['browserify', 'copy', 'sass'], function () {
+gulp.task('build', ['browserify', 'copy', 'sass'])
+
+gulp.task('default', ['build'], function () {
   process.exit(0)
 })

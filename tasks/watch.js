@@ -13,3 +13,5 @@ exports.copy = function() {
 exports.js = function() {
   gulp.watch('./app/**/*.js', ['browserify']);
 };
+
+exports.js.dependencies = ['build'];

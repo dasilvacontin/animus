@@ -6,12 +6,9 @@ var concat = require('gulp-concat')
 var sourcemaps = require('gulp-sourcemaps')
 
 exports.sass = function() {
-  return gulp.src('app/**/*.scss')
+  return sass('app/css/')
+    .on('error', sass.logError)
     .pipe(sourcemaps.init())
-    .pipe(sass())
-    .on('error', function (e) {
-      console.log(e.message)
-    })
     .pipe(autoprefixer())
     .pipe(concat('all.css'))
     .pipe(sourcemaps.write('.'))

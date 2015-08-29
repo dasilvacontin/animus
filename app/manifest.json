@@ -45,6 +45,7 @@
     "https://*/*"
   ],
   "web_accessible_resources": [
+    "all.css.map",
     "bundle.js.map",
     "fonts/*"
   ]
