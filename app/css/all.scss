@@ -4,6 +4,7 @@
   line-height: 33px;
   text-align: left;
   white-space: nowrap;
+  text-decoration: none;
   &::selection {
     background: #4A90E2; /* WebKit/Blink Browsers */
     color: white;
@@ -123,7 +124,6 @@
       &:hover {
         @include animus-text-style();
         color: #4A90E2;
-        text-decoration: none;
       }
     }
 
@@ -177,7 +177,6 @@
   font-size: 14px;
   font-weight: bold;
   vertical-align: middle;
-  text-decoration: none;
 }
 
 .animus-bgcolor-open {
