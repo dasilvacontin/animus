@@ -7,8 +7,6 @@ var EntryView = require('./EntryView')
 var $ = zepto.$
 var controller
 
-console.log('animus operative')
-
 /* TODO: Refactor into a AnimusController class. */
 var animusTemplate = "<div id='animus' class='animus-hide'><div class='animus-view'><input class='animus-new-entry-input' type='text' placeholder='animus'></input><ul class='animus-entry-list'></ul></div></div>"
 var animus = $(animusTemplate)
