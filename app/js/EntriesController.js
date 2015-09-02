@@ -426,7 +426,10 @@ EntriesController.prototype.onDeadEntryView = function (entryView, hint) {
  * Undo the last action.
  */
 EntriesController.prototype.undo = function () {
-  this.performChange(this.undoStack.pop())
+  var changedList = this.performChange(this.undoStack.pop())
+  if (changedList) {
+    this.renderList()
+  }
 }
 EntriesController.prototype.getNextUndo = function () {
   return this.undoStack[this.undoStack.length - 1]
