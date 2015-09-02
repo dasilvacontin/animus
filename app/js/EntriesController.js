@@ -431,6 +431,7 @@ EntriesController.prototype.undo = function () {
     this.renderList()
   }
 }
+
 EntriesController.prototype.getNextUndo = function () {
   return this.undoStack[this.undoStack.length - 1]
 }
