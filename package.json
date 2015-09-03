@@ -4,7 +4,7 @@
   "description": "the element of a person that enables them to be aware of the world and their experiences, to think, and to feel",
   "main": "app/js/index.js",
   "scripts": {
-    "test": "standard app/**.js"
+    "test": "standard app/**/*.js gulpfile.js tasks/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "gulp-sourcemaps": "^1.5.1",
     "gulp-util": "^3.0.4",
     "mocha": "^2.2.1",
-    "standard": "^3.3.0",
+    "standard": "^5.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^2.6.2"

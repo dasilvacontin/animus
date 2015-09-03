@@ -33,10 +33,12 @@ var linkRe = /\b(https?:\/\/)?[\da-z\.-]+\.[a-z\.]{2,6}\S*/i
 
 Entry.prototype.getLink = function () {
   var matches = this.title.match(linkRe)
-  if (!matches)
+  if (!matches) {
     return undefined
+  }
   var link = matches[0]
-  if (!link.match(/^http/))
+  if (!link.match(/^http/)) {
     link = 'http://' + link
+  }
   return link
 }

@@ -1,10 +1,12 @@
 module.exports = function (url) {
-  if (url[url.length - 1] !== '/')
+  if (url[url.length - 1] !== '/') {
     url += '/'
-  //https://github.com/mochajs/mocha/pull/1652/
+  }
+  // https://github.com/mochajs/mocha/pull/1652/
   var match = url.match(/github\.com\/([^\s\/]+)\/(([^\s\/]+)\/)?(([^\s\/]+)\/)?(([^\s\/]+)\/)?$/)
-  if (!match)
+  if (!match) {
     return undefined
+  }
 
   var owner = match[1]
   var repo = match[3]
@@ -12,11 +14,13 @@ module.exports = function (url) {
   var number = match[7]
 
   // type: 'issues' -> 'issue'
-  if (type === 'issues')
+  if (type === 'issues') {
     type = 'issue'
+  }
 
-  if (number !== undefined)
+  if (number !== undefined) {
     number = number.split('#')[0]
+  }
 
   return {
     owner: owner,

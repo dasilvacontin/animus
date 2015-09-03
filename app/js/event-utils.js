@@ -1,4 +1,7 @@
 'use strict'
+
+/* global MouseEvent */
+
 var Promise = require('bluebird')
 
 /**
@@ -33,14 +36,15 @@ exports.emitP = function emitP (emitter, event, args) {
 var lastMouseEvent
 var setLastMouseEventTimeoutId
 exports.didMove = function (event) {
-  if (!(event instanceof MouseEvent))
+  if (!(event instanceof MouseEvent)) {
     return false
+  }
 
   var moved = !lastMouseEvent
   if (lastMouseEvent) {
     moved =
-      event.screenX != lastMouseEvent.screenX ||
-      event.screenY != lastMouseEvent.screenY
+      event.screenX !== lastMouseEvent.screenX ||
+      event.screenY !== lastMouseEvent.screenY
   }
   exports.setLastMouseEventAfterEventQueue(event)
   return moved
@@ -70,8 +74,9 @@ exports.setLastMouseEventAfterEventQueue = function (event) {
  */
 
 exports.log = function (event) {
-  if (!event)
+  if (!event) {
     return
+  }
   if (event instanceof MouseEvent) {
     console.log(event.type, 'screenX', event.screenX, 'screenY', event.screenY)
   } else {
