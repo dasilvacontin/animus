@@ -151,20 +151,16 @@ EntriesController.prototype.onKeydown = function (evt) {
         evt.preventDefault()
         // TODO: Refactor this into a function
         var val = this.input.val()
-        if (!val) return
-        var Model = this.model
-        var entry = new Model({
-          title: val
-        })
-        entry.save()
-        this.addEntry(entry)
-        this.input.val('')
-        // TODO: Why doesn't this fire automatticaly? trigger?
-        this.onInputChange({srcElement: this.input[0]})
-
-        // save entry and close animus if shift+enter
-        if (evt.shiftKey) {
-          this.emit('toggle')
+        if (val) {
+          var Model = this.model
+          var entry = new Model({
+            title: val
+          })
+          entry.save()
+          this.addEntry(entry)
+          this.input.val('')
+          // TODO: Why doesn't this fire automatticaly? trigger?
+          this.onInputChange({srcElement: this.input[0]})
         }
         break
 
@@ -221,6 +217,12 @@ EntriesController.prototype.onKeydown = function (evt) {
         break
 
     }
+  }
+
+  if (evt.keyCode === keycode('enter') && evt.shiftKey) {
+    evt.preventDefault()
+    // close animus if shift+enter
+    this.emit('toggle')
   }
 }
 
