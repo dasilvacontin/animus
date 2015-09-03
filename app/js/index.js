@@ -26,14 +26,14 @@ window.toggleAnimus = function () {
   controller.setActive(!controller.active)
 }
 window.AnimusSaveWebsite = function () {
-  if (!controller || !controller.active)
+  if (!controller || !controller.active) {
     window.toggleAnimus()
+  }
   controller.input.val(window.document.title + ' ' + window.location.href)
   controller.onInputChange()
   controller.input.focus()
   controller.input.scrollLeft(Infinity)
 }
-
 
 var blurredNodes = []
 function blurPage (flag) {

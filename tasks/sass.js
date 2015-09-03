@@ -5,7 +5,7 @@ var autoprefixer = require('gulp-autoprefixer')
 var concat = require('gulp-concat')
 var sourcemaps = require('gulp-sourcemaps')
 
-exports.sass = function() {
+exports.sass = function () {
   return sass('app/css/')
     .on('error', sass.logError)
     .pipe(sourcemaps.init())
@@ -13,4 +13,4 @@ exports.sass = function() {
     .pipe(concat('all.css'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
-};
+}

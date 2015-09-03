@@ -1,4 +1,7 @@
 'use strict'
+
+/* globals XMLHttpRequest */
+
 var _ = require('lodash')
 var events = require('events')
 var eventUtils = require('./event-utils')
@@ -48,14 +51,16 @@ EntryView.prototype.createNode = function () {
 
   // replace link before replacing tags since link can contain '#'
   text = text.replace(href, '').replace(tagRe, tagTpl)
-  if (!text)
+  if (!text) {
     text = this.model.title
+  }
 
   var html = '<li>' + text
 
   // Link Parsing
-  if (href)
+  if (href) {
     html += ' <a href="' + href + '" target="_blank"><span class="octicon octicon-link"></span></a>'
+  }
 
   // GitHub integration
   var self = this
@@ -65,29 +70,31 @@ EntryView.prototype.createNode = function () {
       var req = new XMLHttpRequest()
       req.onload = function (e) {
         if (req.response) {
-            var data = JSON.parse(req.response)
-            var status = data.state
-            if (status === 'closed' && data.merged)
-              status = 'merged'
-            status = _.capitalize(status)
+          var data = JSON.parse(req.response)
+          var status = data.state
+          if (status === 'closed' && data.merged) {
+            status = 'merged'
+          }
+          status = _.capitalize(status)
 
-            var li = self.$el
-            var a = self.$el.find('a')
-            var html = ""
-            html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">'
-            if (ghURL.type === 'issue'){
-                if (status === 'closed')
-                  html += '<span class="octicon octicon-issue-closed"></span> '
-                else
-                  html += '<span class="octicon octicon-issue-opened"></span> '
-            } else if (ghURL.type === 'pull')
-              html += '<span class="octicon octicon-git-pull-request"></span> '
-            html += status
-            html += '</span>'
-            a.append(html)
+          var a = self.$el.find('a')
+          var html = ''
+          html += '<span class="animus-github-badge animus-bgcolor-' + status.toLowerCase() + '">'
+          if (ghURL.type === 'issue') {
+            if (status === 'closed') {
+              html += '<span class="octicon octicon-issue-closed"></span> '
+            } else {
+              html += '<span class="octicon octicon-issue-opened"></span> '
+            }
+          } else if (ghURL.type === 'pull') {
+            html += '<span class="octicon octicon-git-pull-request"></span> '
+          }
+          html += status
+          html += '</span>'
+          a.append(html)
         }
       }
-      req.open('GET', 'https://api.github.com/repos/'+ghURL.owner+'/'+ghURL.repo+'/'+ghURL.type+'s/'+ghURL.number)
+      req.open('GET', 'https://api.github.com/repos/' + ghURL.owner + '/' + ghURL.repo + '/' + ghURL.type + 's/' + ghURL.number)
       req.send()
     }
   }
@@ -97,11 +104,15 @@ EntryView.prototype.createNode = function () {
   this.$ = this.$el.find.bind(this.$el)
 
   this.$el.on('mouseover', function (evt) {
-    if (!eventUtils.didMove(evt)) return
+    if (!eventUtils.didMove(evt)) {
+      return
+    }
     self.emit('hover', self)
   })
   this.$el.on('mouseout', function (evt) {
-    if (!eventUtils.didMove(evt)) return
+    if (!eventUtils.didMove(evt)) {
+      return
+    }
     self.emit('hover', null)
   })
   var animusTags = this.$('.animus-tag')

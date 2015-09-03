@@ -1,4 +1,7 @@
 'use strict'
+
+/* globals chrome */
+
 var util = require('util')
 var _ = require('lodash')
 var zepto = require('zepto-browserify')
@@ -63,7 +66,7 @@ function EntriesController () {
   })
   chrome.storage.onChanged.addListener(function (changes, area) {
     // TODO: refactor
-    if (area != 'sync') return
+    if (area !== 'sync') return
     _.forEach(changes, function (change, id) {
       // failure to perform a change probably means that this instance was the
       // one that performed the sync / modified data
@@ -110,7 +113,7 @@ EntriesController.prototype.setActive = function (flag) {
   } else if (this.active && !flag) {
     this.detachKeyListener()
   }
-  this.active = flag;
+  this.active = flag
 }
 
 EntriesController.prototype.attachKeyListener = function () {
@@ -123,8 +126,9 @@ EntriesController.prototype.detachKeyListener = function () {
 
 EntriesController.prototype.onKeydown = function (evt) {
   // Prevent animus from blocking command usage, e.g. Cmd+Shift+F for fullscreen
-  if (evt.altKey || evt.ctrlKey || evt.metaKey)
+  if (evt.altKey || evt.ctrlKey || evt.metaKey) {
     return
+  }
 
   // Prevent websites to do stuff while we interact with animus
   // e.g. Wired automatically starts searching when a key is pressed
@@ -159,12 +163,14 @@ EntriesController.prototype.onKeydown = function (evt) {
         this.onInputChange({srcElement: this.input[0]})
 
         // save entry and close animus if shift+enter
-        if (evt.shiftKey)
+        if (evt.shiftKey) {
           this.emit('toggle')
+        }
         break
 
     }
   } else {
+    var index
     switch (evt.keyCode) {
 
       case keycode('a'):
@@ -196,19 +202,20 @@ EntriesController.prototype.onKeydown = function (evt) {
       case keycode('f'):
         if (this.selectedEntryView) {
           var link = this.selectedEntryView.model.getLink()
-          if (link)
+          if (link) {
             window.open(link, '_blank')
+          }
         }
         break
 
       case keycode('j'):
-        var index = this.getSelectionIndex()
+        index = this.getSelectionIndex()
         index = Math.min(this.entryViewList.length - 1, index + 1)
         this.selectEntryViewAtIndex(index, true)
         break
 
       case keycode('k'):
-        var index = this.getSelectionIndex()
+        index = this.getSelectionIndex()
         index = Math.max(0, index - 1)
         this.selectEntryViewAtIndex(index, true)
         break
@@ -271,9 +278,10 @@ EntriesController.prototype.onInputChange = function (evt) {
  * Relocates EntryViews
  */
 EntriesController.prototype.renderList = function (startIndex) {
+  var entryView
   startIndex = Math.max(startIndex || 0, 0)
   for (var i = startIndex; i < this.entryViewList.length; ++i) {
-    var entryView = this.entryViewList[i]
+    entryView = this.entryViewList[i]
     entryView.offsetY = i * 63
     entryView.$el.css('transform', 'translateY(' + entryView.offsetY + 'px)')
   }
@@ -281,8 +289,8 @@ EntriesController.prototype.renderList = function (startIndex) {
   // We find out the list element with the largest width so that
   // we can make the input's width match it
   var maxWidth = 0
-  for (var i = startIndex; i < this.entryViewList.length; ++i) {
-    var entryView = this.entryViewList[i]
+  for (var j = startIndex; j < this.entryViewList.length; ++j) {
+    entryView = this.entryViewList[j]
     var domEl = entryView.$el[0]
     maxWidth = Math.max(maxWidth, domEl.offsetWidth)
   }
@@ -445,22 +453,23 @@ EntriesController.prototype.getNextUndo = function () {
 
 EntriesController.prototype.performChange = function (change) {
   var id = (change.newValue || change.oldValue).id
+  var entry
   if (!change.newValue) {
     // deleted entry
-    var entry = Entry.items[id]
+    entry = Entry.items[id]
     if (!entry) return false
     if (entry instanceof Entry) entry.destroy()
     else Entry.items = undefined
   } else if (!change.oldValue) {
     // added entry
     if (Entry.items[id]) return false
-    var entry = Entry.fromObject(change.newValue)
+    entry = Entry.fromObject(change.newValue)
     if (!(entry instanceof Entry)) return false
     this.addEntry(entry)
   } else {
     // updated entry
     // lol, we don't perform updates right now, we delete / re-create entries
-    var entry = Entry.items[id]
+    entry = Entry.items[id]
     entry.update(change.newValue)
   }
   return true
