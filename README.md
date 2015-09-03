@@ -38,6 +38,7 @@ Chrome Extension for instantly storing and filtering your ideas, todos, links, c
 - `shift+enter` - Same as above but it also closes animus
 - `e`, edit - Edits the selected entry
 - `d`, delete/done - Deletes the selected entry
+- `u`, undo - Undoes the previous action
 - `f`, follow link - Opens the selected entry's link in a new tab
 - `esc` - Close animus
 
