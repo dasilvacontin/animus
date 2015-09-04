@@ -45,7 +45,6 @@ var tagRe = /(#[a-z\d]+)/ig
 var tagTpl = '<span class="animus-tag">$&</span>'
 
 EntryView.prototype.createNode = function () {
-
   var text = this.model.title
   var href = this.model.getLink()
 
