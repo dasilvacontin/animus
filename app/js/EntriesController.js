@@ -250,7 +250,7 @@ EntriesController.prototype.addTagToQuery = function (tag) {
     this.input.val(val + tag)
   } else {
     // Tags only have [#a-zA-Z], so don't worry about escaping regex
-    var replacingTagRe = new RegExp(tag, 'g')
+    var replacingTagRe = new RegExp(tag, 'gi')
     var newVal = val.replace(replacingTagRe, '')
     this.input.val(newVal)
   }
