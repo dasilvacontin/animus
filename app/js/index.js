@@ -1,4 +1,4 @@
-'use strict'
+'use strict' /* global chrome */
 var zepto = require('zepto-browserify')
 var EntriesController = require('./EntriesController')
 var Entry = require('./Entry')
@@ -56,17 +56,37 @@ function blurPage (flag) {
   }
 }
 
+var oldFavicon
+var faviconNode = $('link[rel="shortcut icon"]')[0] || $('link[rel="icon"]')[0]
+faviconNode = $(faviconNode)
+if (faviconNode.length === 0) {
+  faviconNode = $('<link rel="shortcut icon" type="image/x-icon" href="">')
+  $('head').append(faviconNode)
+}
+
+function changeFavicon (change) {
+  var newFavicon = chrome.extension.getURL('img/logo38.png')
+  if (change) {
+    oldFavicon = faviconNode.prop('href')
+    faviconNode.prop('href', newFavicon)
+  } else {
+    faviconNode.prop('href', oldFavicon)
+  }
+}
+
 var animusTimeout
 function showAnimus (flag) {
   if (flag === undefined) flag = true
   clearTimeout(animusTimeout)
   if (flag) {
+    changeFavicon(true)
     $('body').append(animus)
     animusTimeout = setTimeout(function () {
       $(animus).removeClass('animus-hide')
       $(document.body).addClass('animus-no-scroll')
     }, 16)
   } else {
+    changeFavicon(false)
     $(animus).addClass('animus-hide')
     $(document.body).removeClass('animus-no-scroll')
     animusTimeout = setTimeout(function () {
