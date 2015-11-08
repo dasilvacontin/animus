@@ -99,6 +99,7 @@
 }
 
 .animus-entry-list {
+  width: 100%;
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -116,14 +117,26 @@
     list-style: none;
     border: none;
     transition: opacity 0.5s, transform 0.5s;
+    width: 100%;
     padding: 15px 0px 15px 8px;
     position: absolute;
     top: 0px;
     left: 0px;
 
+    .animus__li-content {
+      display: inline-block;
+      max-width: 100%;
+      vertical-align: middle;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     a {
       @include animus-text-style();
       color: #4A4A4A;
+      vertical-align: text-bottom;
+
       &:hover {
         @include animus-text-style();
         color: #4A90E2;

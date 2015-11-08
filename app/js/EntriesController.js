@@ -11,6 +11,7 @@ var eventUtils = require('./event-utils')
 var Controller = require('./controller')
 var Query = require('./Query')
 var Entry = require('./Entry')
+var TextUtils = require('./TextUtils')
 
 var $ = zepto.$
 
@@ -293,9 +294,15 @@ EntriesController.prototype.renderList = function (startIndex) {
   var maxWidth = 0
   for (var j = startIndex; j < this.entryViewList.length; ++j) {
     entryView = this.entryViewList[j]
-    var domEl = entryView.$el[0]
-    maxWidth = Math.max(maxWidth, domEl.offsetWidth)
+    var text = entryView.content
+    // add 8 for left padding
+    var textWidth = Math.ceil(TextUtils.getTextWidth(text, '24px sans-serif')) + 8
+    console.log(text, textWidth)
+    maxWidth = Math.max(maxWidth, textWidth)
   }
+
+  // But don't make it larger than 80% of the screen
+  maxWidth = Math.min(window.innerWidth * 0.8, maxWidth)
   this.$('.animus-new-entry-input').css('width', maxWidth)
 
   // We fake the list's height since all the list elements have top,left: 0px

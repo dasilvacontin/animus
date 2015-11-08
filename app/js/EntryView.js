@@ -54,7 +54,8 @@ EntryView.prototype.createNode = function () {
     text = this.model.title
   }
 
-  var html = '<li>' + text
+  this.content = text.trim()
+  var html = '<li><span class="animus__li-content">' + this.content + '</span>'
 
   // Link Parsing
   if (href) {
