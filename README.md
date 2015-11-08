@@ -1,4 +1,5 @@
 <div style="text-align:center"><img src="https://github.com/dasilvacontin/animus/raw/master/screenshots/demo.png" width="1191"></div>
+[<img src="http://kerrick.github.io/Mostly-Harmless/images/ss_webstore.png" width="203">][animus-chrome-web-store]
 
 # animus
 
@@ -12,7 +13,7 @@
 
 Chrome Extension for instantly storing and filtering your ideas, todos, links, check-laters.
 
-[Install](https://chrome.google.com/webstore/detail/animus/hhlengghgfcjkfkfaocfnimlhnkjddch) the Chrome Extension, and help us make it better! After installing the extension, you should be able to open *animus* over 'any' website using the toggle command (Ctrl+Shift+A by default).
+[Install][animus-chrome-web-store] the Chrome Extension, and help us make it better! After installing the extension, you should be able to open *animus* over 'any' website using the toggle command (Ctrl+Shift+A by default).
 
 *Content scripts can't modify some websites/paths, like the Chrome Web Store, any `chrome://...` window, your homepage, the new tab window, ... so you won't be able to open animus there, for now.*
 
@@ -79,3 +80,5 @@ using this [Extension Reloader](https://chrome.google.com/webstore/detail/extens
 MIT. Copyright (c) [David da Silva Contin](http://dasilvacont.in).
 
 <img src="https://github.com/dasilvacontin/animus/raw/master/app/img/logo384.png" width="192">
+
+[animus-chrome-web-store]: https://chrome.google.com/webstore/detail/animus/hhlengghgfcjkfkfaocfnimlhnkjddch
