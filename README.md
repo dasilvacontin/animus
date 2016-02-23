@@ -29,19 +29,19 @@ Chrome Extension for instantly storing and filtering your ideas, todos, links, c
 
 ## Keyboard Shortcuts
 
-- `Ctrl+Shift+A` - Default command for toggling animus (open/close)
-- `Alt+Shift+A` - Open animus and add the website's title and url to the input field
-- `j` - Select next entry
-- `k` - Select previous entry
-- `tab` - Switch focus between the input field and the list
-- `a`, add - Switch focus to input field
-- `enter` - Insert input field's text as a new entry
-- `shift+enter` - Same as above but it also closes animus
-- `e`, edit - Edits the selected entry
-- `d`, delete/done - Deletes the selected entry
-- `u`, undo - Undoes the previous action
-- `f`, follow link - Opens the selected entry's link in a new tab
-- `esc` - Close animus
+- <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>A</kbd> - Default command for toggling animus (open/close)
+- <kbd>alt</kbd> + <kbd>shift</kbd> + <kbd>A</kbd> - Open animus and add the website's title and url to the input field
+- <kbd>J</kbd> - Select next entry
+- <kbd>K</kbd> - Select previous entry
+- <kbd>tab</kbd> - Switch focus between the input field and the list
+- <kbd>A</kbd>, add - Switch focus to input field
+- <kbd>enter</kbd> - Insert input field's text as a new entry
+- <kbd>shift</kbd> + <kbd>enter</kbd> - Same as above but it also closes animus
+- <kbd>E</kbd>, edit - Edits the selected entry
+- <kbd>D</kbd>, delete/done - Deletes the selected entry
+- <kbd>U</kbd>, undo - Undoes the previous action
+- <kbd>F</kbd>, follow link - Opens the selected entry's link in a new tab
+- <kbd>esc</kbd> - Close animus
 
 You can change/set a custom command for toggling animus in the **Keyboard shortcuts** configuration modal at the bottom of the [Chrome Extensions](chrome://extensions/) page.
 
